@@ -1,0 +1,9 @@
+server:
+  port: 8080
+  servlet:
+    context-path: /api/innobothealth/
+spring:
+  data:
+    mongodb:
+      uri: mongodb+srv://dulangawimalagunasekara:Dulanga1234@sliitproject.9xosu0p.mongodb.net/
+      database: InnobotHealth
