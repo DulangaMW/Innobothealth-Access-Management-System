@@ -36,6 +36,7 @@ public class SecurityConfig {
                 .authorizeHttpRequests(request ->
                         request.requestMatchers(HttpMethod.GET,"/test/say-hello").permitAll()
                                 .requestMatchers(HttpMethod.POST,"/user/register").permitAll()
+                                .requestMatchers(HttpMethod.GET,"/test/send-email").permitAll()
                                 .anyRequest().authenticated())
                 .sessionManagement(manager -> manager.sessionCreationPolicy(STATELESS))
                 .authenticationProvider(authenticationProvider()).addFilterBefore(

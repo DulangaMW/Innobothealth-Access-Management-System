@@ -7,6 +7,17 @@ spring:
     mongodb:
       uri: mongodb+srv://dulangawimalagunasekara:Dulanga1234@sliitproject.9xosu0p.mongodb.net/
       database: InnobotHealth
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: healthinnobot@gmail.com
+    password: cdns hzep rwce mqgu
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
 
 token:
   signing:
