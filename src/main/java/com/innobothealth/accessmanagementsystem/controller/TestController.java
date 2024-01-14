@@ -1,6 +1,7 @@
 package com.innobothealth.accessmanagementsystem.controller;
 
 import com.innobothealth.accessmanagementsystem.util.EmailSender;
+import com.innobothealth.accessmanagementsystem.util.SMSSender;
 import jakarta.mail.MessagingException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -14,6 +15,9 @@ public class TestController {
 
     @Autowired
     private final EmailSender emailSender;
+
+    @Autowired
+    private SMSSender smsSender;
 
     public TestController(EmailSender emailSender) {
         this.emailSender = emailSender;
@@ -31,6 +35,11 @@ public class TestController {
         return "Email Sent";
     }
 
+    @GetMapping("send-sms")
+    public String sendTestSMS(@RequestParam String message, @RequestParam String phoneNumber) throws MessagingException {
+        smsSender.sendSMS(message, phoneNumber);
+        return "SMS Sent";
+    }
 
 
 }
