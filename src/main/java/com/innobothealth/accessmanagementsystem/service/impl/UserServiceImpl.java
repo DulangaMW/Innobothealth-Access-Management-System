@@ -2,10 +2,12 @@ package com.innobothealth.accessmanagementsystem.service.impl;
 
 import com.innobothealth.accessmanagementsystem.document.SMSOTP;
 import com.innobothealth.accessmanagementsystem.document.User;
+import com.innobothealth.accessmanagementsystem.dto.TokenResponse;
 import com.innobothealth.accessmanagementsystem.dto.UserDTO;
 import com.innobothealth.accessmanagementsystem.repository.SMSRepository;
 import com.innobothealth.accessmanagementsystem.repository.UserRepository;
 import com.innobothealth.accessmanagementsystem.service.UserService;
+import com.innobothealth.accessmanagementsystem.util.JWTService;
 import com.innobothealth.accessmanagementsystem.util.Role;
 import com.innobothealth.accessmanagementsystem.util.SMSSender;
 import org.modelmapper.ModelMapper;
@@ -15,7 +17,9 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
+import java.util.Optional;
 import java.util.Random;
 
 @Service
@@ -24,13 +28,16 @@ public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
     private final SMSRepository smsRepository;
 
+    private final JWTService jwtService;
+
     private final SMSSender smsSender;
     private final ModelMapper modelMapper;
     private static final Random random = new Random();
 
-    public UserServiceImpl(UserRepository userRepository, SMSRepository smsRepository, SMSSender smsSender, ModelMapper modelMapper) {
+    public UserServiceImpl(UserRepository userRepository, SMSRepository smsRepository, JWTService jwtService, SMSSender smsSender, ModelMapper modelMapper) {
         this.userRepository = userRepository;
         this.smsRepository = smsRepository;
+        this.jwtService = jwtService;
         this.smsSender = smsSender;
         this.modelMapper = modelMapper;
     }
@@ -68,6 +75,18 @@ public class UserServiceImpl implements UserService {
                 return userRepository.findByEmail(username);
             }
         };
+
+    }
+
+    @Override
+    public TokenResponse generateToken(String email, String otp) {
+
+        Optional<SMSOTP> byId = smsRepository.findById(email);
+        if (byId.isPresent() && byId.get().getOtp().equals(otp)) {
+            UserDetails user = userRepository.findByEmail(email);
+            return TokenResponse.builder().accessToken(jwtService.generateToken(user)).build();
+        }
+        throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Invalid OTP!");
 
     }
 

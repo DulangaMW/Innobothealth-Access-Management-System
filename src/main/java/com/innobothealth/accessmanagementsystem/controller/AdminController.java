@@ -1,6 +1,8 @@
 package com.innobothealth.accessmanagementsystem.controller;
 
+import com.fasterxml.jackson.databind.JsonNode;
 import com.innobothealth.accessmanagementsystem.document.User;
+import com.innobothealth.accessmanagementsystem.dto.TokenResponse;
 import com.innobothealth.accessmanagementsystem.dto.UserDTO;
 import com.innobothealth.accessmanagementsystem.service.UserService;
 import org.springframework.http.ResponseEntity;
@@ -23,5 +25,12 @@ public class AdminController {
     public ResponseEntity<User> registerAdmin(@RequestBody UserDTO user) {
         return userService.registerAdmin(user);
     }
+
+    @PostMapping("request/token")
+    public TokenResponse getAccessToken(@RequestBody JsonNode jsonNode) {
+        return userService.generateToken(jsonNode.get("email").asText(), jsonNode.get("otp").asText());
+    }
+
+
 
 }
