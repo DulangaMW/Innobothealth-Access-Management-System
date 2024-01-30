@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 
@@ -25,6 +26,7 @@ public class SMSSender {
         this.restTemplate = restTemplate;
     }
 
+    @Async("asyncPool")
     public void sendSMS(String message, String phoneNumber) {
 
         HttpHeaders headers = new HttpHeaders();

@@ -4,6 +4,7 @@ import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -15,6 +16,7 @@ public class EmailSender {
         this.mailSender = mailSender;
     }
 
+    @Async("asyncPool")
     public void sendEmail (String to, String subject, String text) throws MessagingException {
 
         MimeMessage message = mailSender.createMimeMessage();
