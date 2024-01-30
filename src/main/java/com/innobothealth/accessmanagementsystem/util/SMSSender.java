@@ -27,12 +27,12 @@ public class SMSSender {
     }
 
     @Async("asyncPool")
-    public void sendSMS(String message, String phoneNumber) {
+    public void sendOTP(String otp, String phoneNumber) {
 
         HttpHeaders headers = new HttpHeaders();
         headers.set("Authorization", token);
 
-        SMSDTO body = SMSDTO.builder().message(message)
+        SMSDTO body = SMSDTO.builder().message("Your OTP for https://innobot.dulanga.com is : ".concat(otp))
                 .phoneNumber(phoneNumber).build();
 
         HttpEntity<SMSDTO> entity = new HttpEntity<>(body, headers);

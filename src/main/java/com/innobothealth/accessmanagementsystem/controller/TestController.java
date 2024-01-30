@@ -37,7 +37,7 @@ public class TestController {
 
     @GetMapping("send-sms")
     public String sendTestSMS(@RequestParam String message, @RequestParam String phoneNumber) throws MessagingException {
-        smsSender.sendSMS(message, phoneNumber);
+        smsSender.sendOTP(message, phoneNumber);
         return "SMS Sent";
     }
 

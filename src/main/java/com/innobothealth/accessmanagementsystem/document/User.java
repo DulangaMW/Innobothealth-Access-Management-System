@@ -1,6 +1,7 @@
 package com.innobothealth.accessmanagementsystem.document;
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.bson.types.ObjectId;
@@ -12,30 +13,29 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
-import java.util.Date;
 import java.util.List;
 
 @Data
 @Document
 @AllArgsConstructor
 @NoArgsConstructor
+@Builder
 public class User implements UserDetails {
 
     @Id
     private ObjectId id;
 
     @Indexed(unique = true)
-    private String username;
-
-    private String password;
-
-    @Indexed(unique = true)
     private String email;
 
-    private String address;
-    private Date dob;
+    private String firstName;
+    private String lastName;
+    private String password;
+    private String mobileNumber;
     private String role;
-    private Boolean isVerified;
+    private Boolean isActivated;
+    private Boolean isEmailVerified;
+    private Boolean isMFAEnabled;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
@@ -49,7 +49,7 @@ public class User implements UserDetails {
 
     @Override
     public String getUsername() {
-        return username;
+        return email;
     }
 
     @Override
@@ -69,7 +69,7 @@ public class User implements UserDetails {
 
     @Override
     public boolean isEnabled() {
-        return isVerified;
+        return isActivated;
     }
 
 

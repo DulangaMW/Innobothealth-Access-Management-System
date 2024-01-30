@@ -38,6 +38,7 @@ public class SecurityConfig {
                                 .requestMatchers(HttpMethod.POST,"/user/register").permitAll()
                                 .requestMatchers(HttpMethod.GET,"/test/send-email").permitAll()
                                 .requestMatchers(HttpMethod.GET,"/test/send-sms").permitAll()
+                                .requestMatchers(HttpMethod.POST,"/admin/register").permitAll()
                                 .anyRequest().authenticated())
                 .sessionManagement(manager -> manager.sessionCreationPolicy(STATELESS))
                 .authenticationProvider(authenticationProvider()).addFilterBefore(

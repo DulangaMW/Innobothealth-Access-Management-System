@@ -13,16 +13,14 @@ import java.util.Date;
 public class UserDTO {
 
     @NotNull
-    private String username;
-    @NotNull
     private String password;
     @NotNull
     private String email;
     @NotNull
-    private String address;
+    private String firstName;
     @NotNull
-    private Date dob;
+    private String lastName;
     @NotNull
-    private String role;
+    private String mobileNumber;
 
 }
