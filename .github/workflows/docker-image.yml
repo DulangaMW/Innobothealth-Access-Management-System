@@ -22,4 +22,4 @@ jobs:
         username: dulangawimalagunasekara
         password: dulanga1234
     - name: Push Docker image to Docker Hub
-      run: docker push dulangawimalagunasekara/sliit_spring_be:latest
+      run: docker push sliit_spring_be:latest
