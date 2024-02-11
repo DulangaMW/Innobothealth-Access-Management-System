@@ -62,7 +62,7 @@ public class UserServiceImpl implements UserService {
         userDoc.setIsMFAEnabled(true);
         userDoc.setIsEmailVerified(false);
         User save = userRepository.save(userDoc);
-        SMSOTP smsotp = smsRepository.save(SMSOTP.builder().email(save.getEmail()).otp(otpGenerator()).build());
+        SMSOTP smsotp = smsRepository.save(SMSOTP.builder().email(save.getEmail()).otp(otpGenerator()).exp(System.currentTimeMillis() + 1000 * 60 * 10).build());
         smsSender.sendOTP(smsotp.getOtp(), save.getMobileNumber());
         return ResponseEntity.status(HttpStatus.CREATED).body(save);
     }
@@ -82,9 +82,11 @@ public class UserServiceImpl implements UserService {
     public TokenResponse generateToken(String email, String otp) {
 
         Optional<SMSOTP> byId = smsRepository.findById(email);
-        if (byId.isPresent() && byId.get().getOtp().equals(otp)) {
+        if (byId.isPresent() && byId.get().getOtp().equals(otp) && byId.get().getExp() > System.currentTimeMillis()) {
             UserDetails user = userRepository.findByEmail(email);
-            return TokenResponse.builder().accessToken(jwtService.generateToken(user)).build();
+            return TokenResponse.builder().accessToken(jwtService.generateToken(user))
+                    .refreshToken(jwtService.generateRefreshToken(user))
+                    .build();
         }
         throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Invalid OTP!");
 

@@ -17,5 +17,6 @@ public class SMSOTP {
     @Id
     private String email;
     private String otp;
+    private long exp;
 
 }

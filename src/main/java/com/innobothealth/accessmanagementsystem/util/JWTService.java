@@ -1,5 +1,6 @@
 package com.innobothealth.accessmanagementsystem.util;
 
+import com.innobothealth.accessmanagementsystem.document.User;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -26,7 +27,20 @@ public class JWTService {
     }
 
     public String generateToken(UserDetails userDetails) {
-        return generateToken(new HashMap<>(), userDetails);
+        User user = (User) userDetails;
+        HashMap<String, Object> claims = new HashMap<>();
+        claims.put("authorities", userDetails.getAuthorities());
+        claims.put("isEmailVerified", user.getIsEmailVerified());
+        claims.put("typ", "access-token");
+        return generateToken(claims, userDetails);
+    }
+    public String generateRefreshToken(UserDetails userDetails) {
+        User user = (User) userDetails;
+        HashMap<String, Object> claims = new HashMap<>();
+        claims.put("authorities", userDetails.getAuthorities());
+        claims.put("isEmailVerified", user.getIsEmailVerified());
+        claims.put("typ", "refresh-token");
+        return generateRefreshToken(claims, userDetails);
     }
 
     public boolean isTokenValid(String token, UserDetails userDetails) {
@@ -42,7 +56,7 @@ public class JWTService {
     private String generateToken(Map<String, Object> extraClaims, UserDetails userDetails) {
         return Jwts.builder().setClaims(extraClaims).setSubject(userDetails.getUsername())
                 .setIssuedAt(new Date(System.currentTimeMillis()))
-                .setExpiration(new Date(System.currentTimeMillis() + 1000 * 60 * 24))
+                .setExpiration(new Date(System.currentTimeMillis() + 1000 * 60 * 60 * 24))
                 .signWith(getSigningKey(), SignatureAlgorithm.HS256).compact();
     }
 
@@ -62,6 +76,13 @@ public class JWTService {
     private Key getSigningKey() {
         byte[] keyBytes = Decoders.BASE64.decode(jwtSigningKey);
         return Keys.hmacShaKeyFor(keyBytes);
+    }
+
+    private String generateRefreshToken(Map<String, Object> extraClaims, UserDetails userDetails) {
+        return Jwts.builder().setClaims(extraClaims).setSubject(userDetails.getUsername())
+                .setIssuedAt(new Date(System.currentTimeMillis()))
+                .setExpiration(new Date(System.currentTimeMillis() + 1000 * 60 * 60))
+                .signWith(getSigningKey(), SignatureAlgorithm.HS256).compact();
     }
 
 }
