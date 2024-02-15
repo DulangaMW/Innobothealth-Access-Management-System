@@ -34,7 +34,8 @@ public class SecurityConfig {
 
         http.csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(request ->
-                        request.requestMatchers(HttpMethod.GET,"/test/say-hello").permitAll()
+                        request
+                                .requestMatchers(HttpMethod.GET,"/test/say-hello").permitAll()
                                 .requestMatchers(HttpMethod.POST,"/user/register").permitAll()
                                 .requestMatchers(HttpMethod.GET,"/test/send-email").permitAll()
                                 .requestMatchers(HttpMethod.GET,"/test/send-sms").permitAll()
