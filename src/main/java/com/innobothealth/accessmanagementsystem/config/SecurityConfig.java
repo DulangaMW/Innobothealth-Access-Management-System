@@ -40,6 +40,17 @@ public class SecurityConfig {
                                 .requestMatchers(HttpMethod.GET,"/test/send-sms").permitAll()
                                 .requestMatchers(HttpMethod.POST,"/admin/register").permitAll()
                                 .requestMatchers(HttpMethod.POST,"/admin/request/token").permitAll()
+                                .requestMatchers(HttpMethod.POST,"/medicine/saveMedi").permitAll()
+                                .requestMatchers(HttpMethod.GET,"/medicine/all").permitAll()
+                                .requestMatchers(HttpMethod.GET,"/medicine/{id}").permitAll()
+                                .requestMatchers(HttpMethod.GET,"/medicine/name/{medicineName}").permitAll()
+                                .requestMatchers(HttpMethod.GET,"/medicine/ex}").permitAll()
+                                .requestMatchers(HttpMethod.GET,"/medicine/generate-pdf/all").permitAll()
+                                .requestMatchers(HttpMethod.GET,"/medicine/generate-pdf/expired").permitAll()
+                                .requestMatchers(HttpMethod.PUT,"/medicine").permitAll()
+                                .requestMatchers(HttpMethod.DELETE,"/medicine/{medicineName}").permitAll()
+
+
                                 .anyRequest().authenticated())
                 .sessionManagement(manager -> manager.sessionCreationPolicy(STATELESS))
                 .authenticationProvider(authenticationProvider()).addFilterBefore(
