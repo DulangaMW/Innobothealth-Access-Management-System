@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Optional;
 
 public interface medicineservise {
+
     void addmedicineservise(MedicineDto dto);
     List<MedicineDtoSU> AllmedicineShow();
     MedicineDtoSU getMedicineName(String medicineName);
@@ -21,6 +22,7 @@ public interface medicineservise {
 
     byte[] AllMedicinepdf();
     byte[] ExpireMedicinepdf();
+
 }
 
 

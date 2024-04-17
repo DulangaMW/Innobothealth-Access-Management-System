@@ -44,11 +44,16 @@ public class SecurityConfig {
                                 .requestMatchers(HttpMethod.GET,"/medicine/all").permitAll()
                                 .requestMatchers(HttpMethod.GET,"/medicine/{id}").permitAll()
                                 .requestMatchers(HttpMethod.GET,"/medicine/name/{medicineName}").permitAll()
-                                .requestMatchers(HttpMethod.GET,"/medicine/ex}").permitAll()
+                                .requestMatchers(HttpMethod.GET,"/medicine/ex").permitAll()
                                 .requestMatchers(HttpMethod.GET,"/medicine/generate-pdf/all").permitAll()
                                 .requestMatchers(HttpMethod.GET,"/medicine/generate-pdf/expired").permitAll()
                                 .requestMatchers(HttpMethod.PUT,"/medicine").permitAll()
                                 .requestMatchers(HttpMethod.DELETE,"/medicine/{medicineName}").permitAll()
+                                .requestMatchers(HttpMethod.POST,"/claim/create").permitAll()
+                                .requestMatchers(HttpMethod.DELETE,"/claim/delete").permitAll()
+                                .requestMatchers(HttpMethod.GET,"/claim/getAll").permitAll()
+                                .requestMatchers(HttpMethod.PUT,"/claim/update/{id}").permitAll()
+                                .requestMatchers(HttpMethod.PUT,"/claim/approve/{email}").permitAll()
 
 
                                 .anyRequest().authenticated())
