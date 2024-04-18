@@ -25,7 +25,7 @@ public class TestController {
 
     @GetMapping("say-hello")
     public String sayHello() {
-        return "Hello InnobotHealth!!!";
+        return "Hello InnobotHealth!!!, I'm Online";
     }
 
     @GetMapping("send-email")
