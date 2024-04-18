@@ -3,6 +3,7 @@ package com.innobothealth.accessmanagementsystem.controller;
 import com.innobothealth.accessmanagementsystem.document.Claim;
 import com.innobothealth.accessmanagementsystem.dto.ClaimDTO;
 import com.innobothealth.accessmanagementsystem.service.ClaimService;
+import jakarta.validation.constraints.NotNull;
 import lombok.extern.slf4j.Slf4j;
 import org.bson.types.ObjectId;
 import org.springframework.http.ResponseEntity;
@@ -29,18 +30,18 @@ public class ClaimController {
 
     @PostMapping("create")
     public ResponseEntity<Claim> createClaim(
-            @RequestParam("firstName") String firstName,
-            @RequestParam("lastName") String lastName,
-            @RequestParam("memberId") ObjectId memberId,
-            @RequestParam("dob") String date,
-            @RequestParam("gender") String gender,
-            @RequestParam("phoneNumber") String phoneNumber,
-            @RequestParam("email") String email,
-            @RequestParam("claimType") String claimType,
-            @RequestParam("amount") int amount,
-            @RequestParam("diagnosisId") ObjectId diagnosisId,
-            @RequestParam("treatmentDate") String treatmentDate,
-            @RequestParam("receipt") MultipartFile receipt) throws ParseException, IOException {
+            @RequestParam("firstName") @NotNull String firstName,
+            @RequestParam("lastName") @NotNull String lastName,
+            @RequestParam("memberId") @NotNull ObjectId memberId,
+            @RequestParam("dob") @NotNull String date,
+            @RequestParam("gender") @NotNull String gender,
+            @RequestParam("phoneNumber") @NotNull String phoneNumber,
+            @RequestParam("email") @NotNull String email,
+            @RequestParam("claimType") @NotNull String claimType,
+            @RequestParam("amount") @NotNull int amount,
+            @RequestParam("diagnosisId") @NotNull ObjectId diagnosisId,
+            @RequestParam("treatmentDate") @NotNull String treatmentDate,
+            @RequestParam("receipt") @NotNull MultipartFile receipt) throws ParseException, IOException {
 
         ClaimDTO build = ClaimDTO.builder()
                 .firstName(firstName)
@@ -62,7 +63,7 @@ public class ClaimController {
     }
 
     @DeleteMapping("delete")
-    public void deleteClaim(@RequestParam("email") String email) {
+    public void deleteClaim(@RequestParam("email") @NotNull String email) {
         claimService.deleteClaim(email);
     }
 
@@ -73,17 +74,17 @@ public class ClaimController {
 
     @PutMapping("update/{id}")
     public ResponseEntity<Claim> updateClaim(
-            @PathVariable("id") String email,
-            @RequestParam("firstName") String firstName,
-            @RequestParam("lastName") String lastName,
-            @RequestParam("memberId") ObjectId memberId,
-            @RequestParam("dob") String date,
-            @RequestParam("gender") String gender,
-            @RequestParam("phoneNumber") String phoneNumber,
-            @RequestParam("claimType") String claimType,
-            @RequestParam("amount") int amount,
-            @RequestParam("diagnosisId") ObjectId diagnosisId,
-            @RequestParam("treatmentDate") String treatmentDate,
+            @PathVariable("id") @NotNull String email,
+            @RequestParam("firstName") @NotNull String firstName,
+            @RequestParam("lastName") @NotNull String lastName,
+            @RequestParam("memberId") @NotNull ObjectId memberId,
+            @RequestParam("dob") @NotNull String date,
+            @RequestParam("gender") @NotNull String gender,
+            @RequestParam("phoneNumber") @NotNull String phoneNumber,
+            @RequestParam("claimType") @NotNull String claimType,
+            @RequestParam("amount") @NotNull int amount,
+            @RequestParam("diagnosisId") @NotNull ObjectId diagnosisId,
+            @RequestParam("treatmentDate") @NotNull String treatmentDate,
             @RequestParam("receipt") MultipartFile receipt) throws ParseException, IOException {
 
         ClaimDTO build = ClaimDTO.builder()
@@ -105,7 +106,7 @@ public class ClaimController {
     }
 
     @PutMapping("approve/{email}")
-    public void approveClaim(@PathVariable("email") String email) {
+    public void approveClaim(@PathVariable("email") @NotNull String email) {
         claimService.approveClaim(email);
     }
 
