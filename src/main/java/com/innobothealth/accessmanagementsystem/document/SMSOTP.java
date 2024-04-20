@@ -15,6 +15,8 @@ import org.springframework.data.mongodb.core.mapping.Document;
 public class SMSOTP {
 
     @Id
+    private String id;
+
     private String email;
     private String otp;
     private long exp;

@@ -63,8 +63,8 @@ public class ClaimController {
     }
 
     @DeleteMapping("delete")
-    public void deleteClaim(@RequestParam("email") @NotNull String email) {
-        claimService.deleteClaim(email);
+    public void deleteClaim(@RequestParam("id") @NotNull String id) {
+        claimService.deleteClaim(id);
     }
 
     @GetMapping("getAll")
@@ -74,11 +74,12 @@ public class ClaimController {
 
     @PutMapping("update/{id}")
     public ResponseEntity<Claim> updateClaim(
-            @PathVariable("id") @NotNull String email,
+            @PathVariable("id") @NotNull String id,
             @RequestParam("firstName") @NotNull String firstName,
             @RequestParam("lastName") @NotNull String lastName,
             @RequestParam("memberId") @NotNull ObjectId memberId,
             @RequestParam("dob") @NotNull String date,
+            @RequestParam("email") @NotNull String email,
             @RequestParam("gender") @NotNull String gender,
             @RequestParam("phoneNumber") @NotNull String phoneNumber,
             @RequestParam("claimType") @NotNull String claimType,
@@ -93,6 +94,7 @@ public class ClaimController {
                 .memberId(memberId)
                 .dob(dateFormat.parse(date))
                 .gender(gender)
+                .email(email)
                 .phoneNumber(phoneNumber)
                 .claimType(claimType)
                 .amount(amount)
@@ -101,13 +103,13 @@ public class ClaimController {
                 .receipt(receipt.getBytes())
                 .build();
 
-        return ResponseEntity.status(201).body(claimService.updateClaim(email, build));
+        return ResponseEntity.status(201).body(claimService.updateClaim(id, build));
 
     }
 
-    @PutMapping("approve/{email}")
-    public void approveClaim(@PathVariable("email") @NotNull String email) {
-        claimService.approveClaim(email);
+    @PutMapping("approve/{id}")
+    public void approveClaim(@PathVariable("id") @NotNull String id) {
+        claimService.approveClaim(id);
     }
 
 }

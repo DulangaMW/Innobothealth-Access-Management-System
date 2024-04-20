@@ -18,9 +18,8 @@ import java.util.Date;
 public class Claim {
 
     @Id
+    private String id;
     private String email;
-
-    private ObjectId id;
     private String firstName;
     private String lastName;
     private Insurence member;
