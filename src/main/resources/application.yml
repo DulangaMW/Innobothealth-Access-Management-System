@@ -2,6 +2,9 @@ server:
   port: 8080
   servlet:
     context-path: /api/innobothealth/
+  error:
+    include-exception: true
+    include-message: always
 spring:
   data:
     mongodb:
