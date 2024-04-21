@@ -12,13 +12,12 @@ import org.springframework.data.mongodb.core.mapping.Document;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class SMSOTP {
+public class Doctor {
 
     @Id
     private String id;
-
-    private String email;
-    private String otp;
-    private long exp;
+    private String firstName;
+    private String lastName;
+    private String specialization;
 
 }

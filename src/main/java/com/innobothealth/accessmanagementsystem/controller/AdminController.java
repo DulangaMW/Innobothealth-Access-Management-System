@@ -6,13 +6,11 @@ import com.innobothealth.accessmanagementsystem.dto.TokenResponse;
 import com.innobothealth.accessmanagementsystem.dto.UserDTO;
 import com.innobothealth.accessmanagementsystem.service.UserService;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("admin")
+@CrossOrigin(origins = "*", allowedHeaders = "*")
 public class AdminController {
 
     private final UserService userService;

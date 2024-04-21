@@ -16,7 +16,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 public class Insurence {
 
     @Id
-    private ObjectId id;
+    private String id;
 
     private String memberId;
     private String name;

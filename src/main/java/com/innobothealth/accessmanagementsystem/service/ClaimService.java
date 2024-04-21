@@ -11,5 +11,5 @@ public interface ClaimService {
     void deleteClaim(String claimId);
     List<Claim> getAllClaims();
     Claim updateClaim(String claimId, ClaimDTO claim);
-    void approveClaim(String email);
+    void approveClaim(String id);
 }

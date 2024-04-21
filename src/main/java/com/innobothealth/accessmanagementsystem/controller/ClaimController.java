@@ -3,8 +3,8 @@ package com.innobothealth.accessmanagementsystem.controller;
 import com.innobothealth.accessmanagementsystem.document.Claim;
 import com.innobothealth.accessmanagementsystem.dto.ClaimDTO;
 import com.innobothealth.accessmanagementsystem.service.ClaimService;
+import jakarta.validation.constraints.NotNull;
 import lombok.extern.slf4j.Slf4j;
-import org.bson.types.ObjectId;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -17,6 +17,7 @@ import java.util.List;
 @RestController
 @RequestMapping("claim")
 @Slf4j
+@CrossOrigin(origins = "*", allowedHeaders = "*")
 public class ClaimController {
 
     private final ClaimService claimService;
@@ -29,18 +30,18 @@ public class ClaimController {
 
     @PostMapping("create")
     public ResponseEntity<Claim> createClaim(
-            @RequestParam("firstName") String firstName,
-            @RequestParam("lastName") String lastName,
-            @RequestParam("memberId") ObjectId memberId,
-            @RequestParam("dob") String date,
-            @RequestParam("gender") String gender,
-            @RequestParam("phoneNumber") String phoneNumber,
-            @RequestParam("email") String email,
-            @RequestParam("claimType") String claimType,
-            @RequestParam("amount") int amount,
-            @RequestParam("diagnosisId") ObjectId diagnosisId,
-            @RequestParam("treatmentDate") String treatmentDate,
-            @RequestParam("receipt") MultipartFile receipt) throws ParseException, IOException {
+            @RequestParam("firstName") @NotNull String firstName,
+            @RequestParam("lastName") @NotNull String lastName,
+            @RequestParam("memberId") @NotNull String memberId,
+            @RequestParam("dob") @NotNull String date,
+            @RequestParam("gender") @NotNull String gender,
+            @RequestParam("phoneNumber") @NotNull String phoneNumber,
+            @RequestParam("email") @NotNull String email,
+            @RequestParam("claimType") @NotNull String claimType,
+            @RequestParam("amount") @NotNull int amount,
+            @RequestParam("diagnosisId") @NotNull String diagnosisId,
+            @RequestParam("treatmentDate") @NotNull String treatmentDate,
+            @RequestParam("receipt") @NotNull MultipartFile receipt) throws ParseException, IOException {
 
         ClaimDTO build = ClaimDTO.builder()
                 .firstName(firstName)
@@ -62,8 +63,8 @@ public class ClaimController {
     }
 
     @DeleteMapping("delete")
-    public void deleteClaim(@RequestParam("email") String email) {
-        claimService.deleteClaim(email);
+    public void deleteClaim(@RequestParam("id") @NotNull String id) {
+        claimService.deleteClaim(id);
     }
 
     @GetMapping("getAll")
@@ -73,17 +74,18 @@ public class ClaimController {
 
     @PutMapping("update/{id}")
     public ResponseEntity<Claim> updateClaim(
-            @PathVariable("id") String email,
-            @RequestParam("firstName") String firstName,
-            @RequestParam("lastName") String lastName,
-            @RequestParam("memberId") ObjectId memberId,
-            @RequestParam("dob") String date,
-            @RequestParam("gender") String gender,
-            @RequestParam("phoneNumber") String phoneNumber,
-            @RequestParam("claimType") String claimType,
-            @RequestParam("amount") int amount,
-            @RequestParam("diagnosisId") ObjectId diagnosisId,
-            @RequestParam("treatmentDate") String treatmentDate,
+            @PathVariable("id") @NotNull String id,
+            @RequestParam("firstName") @NotNull String firstName,
+            @RequestParam("lastName") @NotNull String lastName,
+            @RequestParam("memberId") @NotNull String memberId,
+            @RequestParam("dob") @NotNull String date,
+            @RequestParam("email") @NotNull String email,
+            @RequestParam("gender") @NotNull String gender,
+            @RequestParam("phoneNumber") @NotNull String phoneNumber,
+            @RequestParam("claimType") @NotNull String claimType,
+            @RequestParam("amount") @NotNull int amount,
+            @RequestParam("diagnosisId") @NotNull String diagnosisId,
+            @RequestParam("treatmentDate") @NotNull String treatmentDate,
             @RequestParam("receipt") MultipartFile receipt) throws ParseException, IOException {
 
         ClaimDTO build = ClaimDTO.builder()
@@ -92,6 +94,7 @@ public class ClaimController {
                 .memberId(memberId)
                 .dob(dateFormat.parse(date))
                 .gender(gender)
+                .email(email)
                 .phoneNumber(phoneNumber)
                 .claimType(claimType)
                 .amount(amount)
@@ -100,13 +103,13 @@ public class ClaimController {
                 .receipt(receipt.getBytes())
                 .build();
 
-        return ResponseEntity.status(201).body(claimService.updateClaim(email, build));
+        return ResponseEntity.status(201).body(claimService.updateClaim(id, build));
 
     }
 
-    @PutMapping("approve/{email}")
-    public void approveClaim(@PathVariable("email") String email) {
-        claimService.approveClaim(email);
+    @PutMapping("approve/{id}")
+    public void approveClaim(@PathVariable("id") @NotNull String id) {
+        claimService.approveClaim(id);
     }
 
 }

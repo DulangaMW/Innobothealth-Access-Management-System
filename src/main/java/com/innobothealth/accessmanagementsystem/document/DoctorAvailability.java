@@ -7,18 +7,20 @@ import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import java.time.LocalDateTime;
+
 @Data
 @Document
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class SMSOTP {
+public class DoctorAvailability {
 
     @Id
     private String id;
-
-    private String email;
-    private String otp;
-    private long exp;
+    private String doctorId;
+    private LocalDateTime availabilityFrom;
+    private LocalDateTime availabilityTo;
+    private boolean maxPatientsReached = false;
 
 }

@@ -11,7 +11,9 @@ import lombok.NoArgsConstructor;
 @Builder
 public class SMSDTO {
 
+    private String recipient;
+    private String sender_id;
+    private String type;
     private String message;
-    private String phoneNumber;
 
 }

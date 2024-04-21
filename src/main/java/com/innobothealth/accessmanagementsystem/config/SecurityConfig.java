@@ -40,6 +40,9 @@ public class SecurityConfig {
                                 .requestMatchers(HttpMethod.GET,"/test/send-sms").permitAll()
                                 .requestMatchers(HttpMethod.POST,"/admin/register").permitAll()
                                 .requestMatchers(HttpMethod.POST,"/admin/request/token").permitAll()
+                                .requestMatchers(HttpMethod.DELETE,"/appointment/delete/{id}").permitAll()
+                                .requestMatchers(HttpMethod.PUT,"/appointment/update").permitAll()
+                                .requestMatchers(HttpMethod.POST,"/appointment/create").permitAll()
                                 .requestMatchers(HttpMethod.POST,"/medicine/saveMedi").permitAll()
                                 .requestMatchers(HttpMethod.GET,"/medicine/all").permitAll()
                                 .requestMatchers(HttpMethod.GET,"/medicine/{id}").permitAll()
@@ -54,6 +57,9 @@ public class SecurityConfig {
                                 .requestMatchers(HttpMethod.GET,"/claim/getAll").permitAll()
                                 .requestMatchers(HttpMethod.PUT,"/claim/update/{id}").permitAll()
                                 .requestMatchers(HttpMethod.PUT,"/claim/approve/{email}").permitAll()
+                                .requestMatchers(HttpMethod.POST,"/doctor/create").permitAll()
+                                .requestMatchers(HttpMethod.GET,"/doctor/list").permitAll()
+                                .requestMatchers(HttpMethod.OPTIONS,"/**").permitAll()
 
 
                                 .anyRequest().authenticated())

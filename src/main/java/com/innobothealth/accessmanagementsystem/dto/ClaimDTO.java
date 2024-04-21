@@ -16,14 +16,14 @@ public class ClaimDTO {
 
     private String firstName;
     private String lastName;
-    private ObjectId memberId;
+    private String memberId;
     private Date dob;
     private String gender;
     private String phoneNumber;
     private String email;
     private String claimType;
     private int amount;
-    private ObjectId diagnosisId;
+    private String diagnosisId;
     private Date treatmentDate;
     private byte[] receipt;
 

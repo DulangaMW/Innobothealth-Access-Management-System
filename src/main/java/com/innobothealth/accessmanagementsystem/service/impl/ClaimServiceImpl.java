@@ -48,7 +48,6 @@ public class ClaimServiceImpl implements ClaimService {
         }
 
         Claim map = Claim.builder()
-                .id(new ObjectId())
                 .firstName(claim.getFirstName())
                 .lastName(claim.getLastName())
                 .dob(claim.getDob())
@@ -68,12 +67,12 @@ public class ClaimServiceImpl implements ClaimService {
     }
 
     @Override
-    public void deleteClaim(String email) {
-        Optional<Claim> byId = claimRepository.findById(email);
+    public void deleteClaim(String id) {
+        Optional<Claim> byId = claimRepository.findById(id);
         if (!byId.isPresent()) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Cannot find Claim");
         }
-        claimRepository.deleteById(email);
+        claimRepository.deleteById(id);
     }
 
     @Override
@@ -82,9 +81,9 @@ public class ClaimServiceImpl implements ClaimService {
     }
 
     @Override
-    public Claim updateClaim(String email, ClaimDTO claim) {
+    public Claim updateClaim(String id, ClaimDTO claim) {
 
-        Optional<Claim> byId = claimRepository.findById(email);
+        Optional<Claim> byId = claimRepository.findById(id);
         if (!byId.isPresent()) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Claim not found");
         }
@@ -104,6 +103,7 @@ public class ClaimServiceImpl implements ClaimService {
         claim1.setFirstName(claim.getFirstName());
         claim1.setLastName(claim.getLastName());
         claim1.setDob(claim.getDob());
+        claim1.setEmail(claim.getEmail());
         claim1.setGender(claim.getGender());
         claim1.setPhoneNumber(claim.getPhoneNumber());
         claim1.setClaimType(claim.getClaimType());
@@ -120,8 +120,8 @@ public class ClaimServiceImpl implements ClaimService {
     }
 
     @Override
-    public void approveClaim(String email) {
-        Optional<Claim> byId = claimRepository.findById(email);
+    public void approveClaim(String id) {
+        Optional<Claim> byId = claimRepository.findById(id);
         if (!byId.isPresent()) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Claim not found");
         }
