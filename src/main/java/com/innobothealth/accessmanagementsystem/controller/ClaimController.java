@@ -5,7 +5,6 @@ import com.innobothealth.accessmanagementsystem.dto.ClaimDTO;
 import com.innobothealth.accessmanagementsystem.service.ClaimService;
 import jakarta.validation.constraints.NotNull;
 import lombok.extern.slf4j.Slf4j;
-import org.bson.types.ObjectId;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -40,7 +39,7 @@ public class ClaimController {
             @RequestParam("email") @NotNull String email,
             @RequestParam("claimType") @NotNull String claimType,
             @RequestParam("amount") @NotNull int amount,
-            @RequestParam("diagnosisId") @NotNull ObjectId diagnosisId,
+            @RequestParam("diagnosisId") @NotNull String diagnosisId,
             @RequestParam("treatmentDate") @NotNull String treatmentDate,
             @RequestParam("receipt") @NotNull MultipartFile receipt) throws ParseException, IOException {
 
@@ -85,7 +84,7 @@ public class ClaimController {
             @RequestParam("phoneNumber") @NotNull String phoneNumber,
             @RequestParam("claimType") @NotNull String claimType,
             @RequestParam("amount") @NotNull int amount,
-            @RequestParam("diagnosisId") @NotNull ObjectId diagnosisId,
+            @RequestParam("diagnosisId") @NotNull String diagnosisId,
             @RequestParam("treatmentDate") @NotNull String treatmentDate,
             @RequestParam("receipt") MultipartFile receipt) throws ParseException, IOException {
 

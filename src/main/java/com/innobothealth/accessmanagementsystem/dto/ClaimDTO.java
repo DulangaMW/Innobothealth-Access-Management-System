@@ -23,7 +23,7 @@ public class ClaimDTO {
     private String email;
     private String claimType;
     private int amount;
-    private ObjectId diagnosisId;
+    private String diagnosisId;
     private Date treatmentDate;
     private byte[] receipt;
 
