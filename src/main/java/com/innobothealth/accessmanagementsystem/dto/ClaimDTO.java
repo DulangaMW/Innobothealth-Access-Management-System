@@ -16,7 +16,7 @@ public class ClaimDTO {
 
     private String firstName;
     private String lastName;
-    private ObjectId memberId;
+    private String memberId;
     private Date dob;
     private String gender;
     private String phoneNumber;

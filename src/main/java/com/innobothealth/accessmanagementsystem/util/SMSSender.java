@@ -40,9 +40,30 @@ public class SMSSender {
         ResponseEntity<String> responseEntity = restTemplate.postForEntity(url, entity, String.class);
 
         if (!responseEntity.getStatusCode().is2xxSuccessful()) {
-            throw new RuntimeException("Email Sending Failed!");
+            throw new RuntimeException("OTP Sending Failed!");
         }
 
     }
+
+    @Async("asyncPool")
+    public void sendNotification(String message, String phoneNumber) {
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.set("Authorization", token);
+
+        SMSDTO body = SMSDTO.builder().message(message)
+                .phoneNumber(phoneNumber).build();
+
+        HttpEntity<SMSDTO> entity = new HttpEntity<>(body, headers);
+
+        ResponseEntity<String> responseEntity = restTemplate.postForEntity(url, entity, String.class);
+
+        if (!responseEntity.getStatusCode().is2xxSuccessful()) {
+            throw new RuntimeException("Notification Sending Failed!");
+        }
+
+    }
+
+
 
 }

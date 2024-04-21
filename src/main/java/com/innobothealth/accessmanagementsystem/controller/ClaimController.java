@@ -18,6 +18,7 @@ import java.util.List;
 @RestController
 @RequestMapping("claim")
 @Slf4j
+@CrossOrigin(origins = "*", allowedHeaders = "*")
 public class ClaimController {
 
     private final ClaimService claimService;
@@ -32,7 +33,7 @@ public class ClaimController {
     public ResponseEntity<Claim> createClaim(
             @RequestParam("firstName") @NotNull String firstName,
             @RequestParam("lastName") @NotNull String lastName,
-            @RequestParam("memberId") @NotNull ObjectId memberId,
+            @RequestParam("memberId") @NotNull String memberId,
             @RequestParam("dob") @NotNull String date,
             @RequestParam("gender") @NotNull String gender,
             @RequestParam("phoneNumber") @NotNull String phoneNumber,
@@ -77,7 +78,7 @@ public class ClaimController {
             @PathVariable("id") @NotNull String id,
             @RequestParam("firstName") @NotNull String firstName,
             @RequestParam("lastName") @NotNull String lastName,
-            @RequestParam("memberId") @NotNull ObjectId memberId,
+            @RequestParam("memberId") @NotNull String memberId,
             @RequestParam("dob") @NotNull String date,
             @RequestParam("email") @NotNull String email,
             @RequestParam("gender") @NotNull String gender,

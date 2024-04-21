@@ -11,6 +11,7 @@ import java.util.List;
 @RestController
 @RequestMapping("doctor")
 @Slf4j
+@CrossOrigin(origins = "*", allowedHeaders = "*")
 public class DoctorController {
 
     private final DoctorService doctorService;

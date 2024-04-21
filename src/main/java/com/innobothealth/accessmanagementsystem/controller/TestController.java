@@ -4,13 +4,11 @@ import com.innobothealth.accessmanagementsystem.util.EmailSender;
 import com.innobothealth.accessmanagementsystem.util.SMSSender;
 import jakarta.mail.MessagingException;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("test")
+@CrossOrigin(origins = "*", allowedHeaders = "*")
 public class TestController {
 
     @Autowired

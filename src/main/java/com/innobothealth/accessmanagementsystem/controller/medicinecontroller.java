@@ -17,10 +17,10 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@CrossOrigin
 @Slf4j
 @RequestMapping("/medicine")
 @RequiredArgsConstructor
+@CrossOrigin(origins = "*", allowedHeaders = "*")
 public class medicinecontroller {
 
     private final medicineservise MedicineServise;
