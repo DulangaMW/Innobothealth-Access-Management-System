@@ -1,5 +1,7 @@
 package com.innobothealth.accessmanagementsystem.document;
 
+import com.innobothealth.accessmanagementsystem.util.Notification;
+import com.innobothealth.accessmanagementsystem.util.Role;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -23,7 +25,7 @@ import java.util.List;
 public class User implements UserDetails {
 
     @Id
-    private ObjectId id;
+    private String id;
 
     @Indexed(unique = true)
     private String email;
@@ -32,14 +34,15 @@ public class User implements UserDetails {
     private String lastName;
     private String password;
     private String mobileNumber;
-    private String role;
+    private Role role;
     private Boolean isActivated;
     private Boolean isEmailVerified;
     private Boolean isMFAEnabled;
+    private List<Notification> notificationPreference;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return List.of(new SimpleGrantedAuthority(role));
+        return List.of(new SimpleGrantedAuthority(role.name()));
     }
 
     @Override

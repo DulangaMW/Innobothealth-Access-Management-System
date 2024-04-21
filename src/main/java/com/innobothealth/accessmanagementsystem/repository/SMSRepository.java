@@ -6,4 +6,6 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface SMSRepository extends MongoRepository<SMSOTP, String> {
+
+    SMSOTP findByEmail(String email);
 }

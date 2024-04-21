@@ -10,6 +10,7 @@ import com.innobothealth.accessmanagementsystem.service.UserService;
 import com.innobothealth.accessmanagementsystem.util.JWTService;
 import com.innobothealth.accessmanagementsystem.util.Role;
 import com.innobothealth.accessmanagementsystem.util.SMSSender;
+import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -23,6 +24,7 @@ import java.util.Optional;
 import java.util.Random;
 
 @Service
+@Slf4j
 public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
@@ -54,16 +56,25 @@ public class UserServiceImpl implements UserService {
     @Override
     public ResponseEntity<User> registerAdmin(UserDTO admin) {
         if (userRepository.existsUserByEmail(admin.getEmail())) {
+            log.error("Same user already exists! [{}]", admin.getEmail());
             return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
         }
         User userDoc = modelMapper.map(admin, User.class);
-        userDoc.setRole(Role.ADMIN.name());
+        userDoc.setRole(Role.ADMIN);
         userDoc.setIsActivated(true);
         userDoc.setIsMFAEnabled(true);
         userDoc.setIsEmailVerified(false);
         User save = userRepository.save(userDoc);
-        SMSOTP smsotp = smsRepository.save(SMSOTP.builder().email(save.getEmail()).otp(otpGenerator()).exp(System.currentTimeMillis() + 1000 * 60 * 10).build());
-        smsSender.sendOTP(smsotp.getOtp(), save.getMobileNumber());
+        SMSOTP byEmail = smsRepository.findByEmail(admin.getEmail());
+        String otp = otpGenerator();
+        if (byEmail != null) {
+            byEmail.setOtp(otp);
+            byEmail.setExp(System.currentTimeMillis() + 1000 * 60 * 10);
+            smsRepository.save(byEmail);
+        } else {
+            smsRepository.save(SMSOTP.builder().email(save.getEmail()).otp(otp).exp(System.currentTimeMillis() + 1000 * 60 * 10).build());
+        }
+        smsSender.sendOTP(otp, save.getMobileNumber());
         return ResponseEntity.status(HttpStatus.CREATED).body(save);
     }
 
@@ -81,8 +92,8 @@ public class UserServiceImpl implements UserService {
     @Override
     public TokenResponse generateToken(String email, String otp) {
 
-        Optional<SMSOTP> byId = smsRepository.findById(email);
-        if (byId.isPresent() && byId.get().getOtp().equals(otp) && byId.get().getExp() > System.currentTimeMillis()) {
+        SMSOTP byEmail = smsRepository.findByEmail(email);
+        if (byEmail != null && byEmail.getOtp().equals(otp) && byEmail.getExp() > System.currentTimeMillis()) {
             UserDetails user = userRepository.findByEmail(email);
             return TokenResponse.builder().accessToken(jwtService.generateToken(user))
                     .refreshToken(jwtService.generateRefreshToken(user))
