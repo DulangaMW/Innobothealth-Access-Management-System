@@ -16,6 +16,9 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Function;
 
+/**
+ * @author Dulanga Wimalagunasekara
+ */
 @Component
 public class JWTService {
 

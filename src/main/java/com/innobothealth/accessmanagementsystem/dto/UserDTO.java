@@ -1,13 +1,12 @@
 package com.innobothealth.accessmanagementsystem.dto;
 
-import com.innobothealth.accessmanagementsystem.util.Notification;
+import com.innobothealth.accessmanagementsystem.util.NotificationPref;
 import com.innobothealth.accessmanagementsystem.util.Role;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.Date;
 import java.util.List;
 
 @Data
@@ -28,6 +27,6 @@ public class UserDTO {
     @NotNull
     private Role role;
     @NotNull
-    private List<Notification> notificationPreference;
+    private List<NotificationPref> notificationPreference;
 
 }

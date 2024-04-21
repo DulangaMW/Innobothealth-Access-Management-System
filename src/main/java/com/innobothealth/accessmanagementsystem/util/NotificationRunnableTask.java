@@ -18,7 +18,7 @@ public class NotificationRunnableTask implements Runnable{
 
     @Override
     public void run() {
-        if (message != null && !message.isEmpty()) {
+        if (recipient != null && !recipient.isEmpty()) {
             smsSender.sendNotification(message, recipient);
         }
         if (subject != null && !subject.isEmpty() && email != null && !email.isEmpty()) {

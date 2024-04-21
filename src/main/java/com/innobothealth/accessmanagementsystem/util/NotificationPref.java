@@ -1,5 +1,5 @@
 package com.innobothealth.accessmanagementsystem.util;
 
-public enum Notification {
+public enum NotificationPref {
     SMS, EMAIL, SYS
 }

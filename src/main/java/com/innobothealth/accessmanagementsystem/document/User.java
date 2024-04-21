@@ -1,12 +1,11 @@
 package com.innobothealth.accessmanagementsystem.document;
 
-import com.innobothealth.accessmanagementsystem.util.Notification;
+import com.innobothealth.accessmanagementsystem.util.NotificationPref;
 import com.innobothealth.accessmanagementsystem.util.Role;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -38,7 +37,7 @@ public class User implements UserDetails {
     private Boolean isActivated;
     private Boolean isEmailVerified;
     private Boolean isMFAEnabled;
-    private List<Notification> notificationPreference;
+    private List<NotificationPref> notificationPreference;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
