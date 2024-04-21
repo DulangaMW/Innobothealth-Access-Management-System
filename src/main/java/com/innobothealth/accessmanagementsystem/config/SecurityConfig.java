@@ -59,6 +59,7 @@ public class SecurityConfig {
                                 .requestMatchers(HttpMethod.PUT,"/claim/approve/{email}").permitAll()
                                 .requestMatchers(HttpMethod.POST,"/doctor/create").permitAll()
                                 .requestMatchers(HttpMethod.GET,"/doctor/list").permitAll()
+                                .requestMatchers(HttpMethod.OPTIONS,"/**").permitAll()
 
 
                                 .anyRequest().authenticated())
