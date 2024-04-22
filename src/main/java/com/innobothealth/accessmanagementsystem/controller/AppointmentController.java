@@ -15,10 +15,12 @@ import java.util.UUID;
 public class AppointmentController {
     @Autowired
     private AppointmentService appointmentService;
-    @GetMapping("/allappointments")
+    @GetMapping("/all-appointments")
     public List<Appointment> getAllAppointments(){
         return appointmentService.findAll();
     }
+
+
     @PostMapping("/create")
     public Appointment create(@RequestBody Appointment appointment){
         appointment.setAppointmentId(UUID.randomUUID().toString());
@@ -26,9 +28,9 @@ public class AppointmentController {
 
 
     }
-    @PutMapping("/update")
-    public Appointment update(@RequestBody Appointment appointment){
-        appointment.setAppointmentId(UUID.randomUUID().toString());
+    @PutMapping("/update/{id}")
+    public Appointment update(@RequestBody Appointment appointment,@PathVariable String id){
+        appointment.setAppointmentId(id);
         return appointmentService.update(appointment);
 
 
