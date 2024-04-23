@@ -3,6 +3,7 @@ package com.innobothealth.accessmanagementsystem.controller;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.innobothealth.accessmanagementsystem.document.Notification;
 import com.innobothealth.accessmanagementsystem.document.User;
+import com.innobothealth.accessmanagementsystem.dto.GetNotificationDTO;
 import com.innobothealth.accessmanagementsystem.dto.NotificationDTO;
 import com.innobothealth.accessmanagementsystem.dto.NotificationReply;
 import com.innobothealth.accessmanagementsystem.service.NotificationService;
@@ -32,7 +33,7 @@ public class NotificationController {
     }
 
     @GetMapping("getAll")
-    public List<Notification> getSentNotifications(@AuthenticationPrincipal User user) {
+    public List<GetNotificationDTO> getSentNotifications(@AuthenticationPrincipal User user) {
         return notificationService.getNotifications(user.getId());
     }
 
