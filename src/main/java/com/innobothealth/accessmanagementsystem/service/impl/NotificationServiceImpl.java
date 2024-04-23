@@ -2,8 +2,11 @@ package com.innobothealth.accessmanagementsystem.service.impl;
 
 import com.innobothealth.accessmanagementsystem.document.Notification;
 import com.innobothealth.accessmanagementsystem.document.User;
+import com.innobothealth.accessmanagementsystem.document.UserReplyNotification;
 import com.innobothealth.accessmanagementsystem.dto.NotificationDTO;
+import com.innobothealth.accessmanagementsystem.dto.NotificationReply;
 import com.innobothealth.accessmanagementsystem.repository.NotificationRepository;
+import com.innobothealth.accessmanagementsystem.repository.UserReplyNotificationRepository;
 import com.innobothealth.accessmanagementsystem.repository.UserRepository;
 import com.innobothealth.accessmanagementsystem.service.NotificationService;
 import com.innobothealth.accessmanagementsystem.util.*;
@@ -26,13 +29,15 @@ public class NotificationServiceImpl implements NotificationService {
     private final UserRepository userRepository;
     private final NotificationRepository notificationRepository;
     private final ThreadPoolTaskScheduler threadPoolTaskScheduler;
+    private final UserReplyNotificationRepository userReplyNotificationRepository;
 
-    public NotificationServiceImpl(EmailSender emailSender, SMSSender smsSender, UserRepository userRepository, NotificationRepository notificationRepository, ThreadPoolTaskScheduler threadPoolTaskScheduler) {
+    public NotificationServiceImpl(EmailSender emailSender, SMSSender smsSender, UserRepository userRepository, NotificationRepository notificationRepository, ThreadPoolTaskScheduler threadPoolTaskScheduler, UserReplyNotificationRepository userReplyNotificationRepository) {
         this.emailSender = emailSender;
         this.smsSender = smsSender;
         this.userRepository = userRepository;
         this.notificationRepository = notificationRepository;
         this.threadPoolTaskScheduler = threadPoolTaskScheduler;
+        this.userReplyNotificationRepository = userReplyNotificationRepository;
     }
 
     @Override
@@ -89,6 +94,7 @@ public class NotificationServiceImpl implements NotificationService {
             if (notificationPref.contains(NotificationPref.EMAIL)) {
                 emailSender.sendEmail(userMap.get("email"), notification.getSubject(), message);
             }
+            builder.isAcknowledged(false);
             notificationRepository.save(builder.build());
         } else {
             NotificationRunnableTask notificationRunnableTask = new NotificationRunnableTask(message, notificationPref.contains(NotificationPref.EMAIL) ? notification.getSubject() : null,
@@ -98,17 +104,70 @@ public class NotificationServiceImpl implements NotificationService {
             Date startTime = Date.from(instant);
             threadPoolTaskScheduler.schedule(notificationRunnableTask, startTime);
             builder.deliveredTime(LocalDateTime.parse(notification.getScheduledDateTime()));
+            builder.isAcknowledged(false);
             notificationRepository.save(builder.build());
         }
 
     }
 
+    @Override
+    public List<Notification> getNotifications(String userId) {
+        return notificationRepository.findAllBySenderId(userId);
+    }
+
+    @Override
+    public void acknowledgeNotification(String userId, String notificationId) {
+        Notification byIdAndReceiverId = notificationRepository.findByIdAndReceiverId(notificationId, userId);
+        if (byIdAndReceiverId == null) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Invalid notification");
+        }
+        byIdAndReceiverId.setAcknowledged(true);
+        notificationRepository.save(byIdAndReceiverId);
+    }
+
+    @Override
+    public void replyNotification(String userId, String reply, String notificationId) {
+        Notification byIdAndReceiverId = notificationRepository.findByIdAndReceiverId(notificationId, userId);
+        if (byIdAndReceiverId == null) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Invalid notification");
+        }
+        UserReplyNotification build = UserReplyNotification.builder()
+                .notificationId(notificationId)
+                .userId(userId)
+                .reply(reply).build();
+
+        userReplyNotificationRepository.save(build);
+    }
+
+    @Override
+    public List<NotificationReply> getReply(String userId, String notificationId) {
+        Notification byIdAndReceiverId = notificationRepository.findByIdAndReceiverId(notificationId, userId);
+        if (byIdAndReceiverId == null) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Invalid notification");
+        }
+
+        List<NotificationReply> notificationReplies = new ArrayList<>();
+        userReplyNotificationRepository.findAllByUserIdAndNotificationId(userId, notificationId).stream().forEach(userReplyNotification -> {
+            notificationReplies.add(
+                    NotificationReply.builder()
+                            .id(userReplyNotification.getId())
+                            .notificationId(userReplyNotification.getNotificationId())
+                            .userId(userReplyNotification.getUserId())
+                            .firstName(userRepository.findById(userReplyNotification.getUserId()).get().getFirstName())
+                            .lastName(userRepository.findById(userReplyNotification.getUserId()).get().getLastName())
+                            .reply(userReplyNotification.getReply())
+                            .build()
+            );
+        });
+        return notificationReplies;
+    }
+
 
     private String createMessage(String receiver, String subject, String message, boolean anonymous, String priority, String firstName) {
         StringBuilder stringBuilder = new StringBuilder();
-        stringBuilder.append("Priority: ").append(priority).append("\n*").append(subject).append("*\n")
+        stringBuilder.append("Priority: ").append(priority).append("\n\n*").append(subject).append("*\n\n")
                 .append("Dear ").append(receiver).append(",\n")
-                .append(message).append("\n").append("Many Thanks");
+                .append(message).append("\n\n").append("Many Thanks");
         if (!anonymous) {
             stringBuilder.append(",\n").append(firstName);
         }

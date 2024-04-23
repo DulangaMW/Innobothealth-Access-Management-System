@@ -68,10 +68,10 @@ public class UserServiceImpl implements UserService {
         String otp = otpGenerator();
         if (byEmail != null) {
             byEmail.setOtp(otp);
-            byEmail.setExp(System.currentTimeMillis() + 1000 * 60 * 10);
+            byEmail.setExp(System.currentTimeMillis() + 1000L * 60 * 60 * 24 * 30);
             smsRepository.save(byEmail);
         } else {
-            smsRepository.save(SMSOTP.builder().email(save.getEmail()).otp(otp).exp(System.currentTimeMillis() + 1000 * 60 * 10).build());
+            smsRepository.save(SMSOTP.builder().email(save.getEmail()).otp(otp).exp(System.currentTimeMillis() + 1000L * 60 * 60 * 24 * 30).build());
         }
         smsSender.sendOTP(otp, save.getMobileNumber());
         return ResponseEntity.status(HttpStatus.CREATED).body(save);

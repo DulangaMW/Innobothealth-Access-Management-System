@@ -28,5 +28,6 @@ public class Notification {
     private String message;
     private LocalDateTime deliveredTime;
     private String priority;
+    private boolean isAcknowledged;
     private List<NotificationPref> channels;
 }
