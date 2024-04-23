@@ -3,6 +3,7 @@ package com.innobothealth.accessmanagementsystem.service.impl;
 import com.innobothealth.accessmanagementsystem.document.Notification;
 import com.innobothealth.accessmanagementsystem.document.User;
 import com.innobothealth.accessmanagementsystem.document.UserReplyNotification;
+import com.innobothealth.accessmanagementsystem.dto.GetNotificationDTO;
 import com.innobothealth.accessmanagementsystem.dto.NotificationDTO;
 import com.innobothealth.accessmanagementsystem.dto.NotificationReply;
 import com.innobothealth.accessmanagementsystem.repository.NotificationRepository;
@@ -10,6 +11,7 @@ import com.innobothealth.accessmanagementsystem.repository.UserReplyNotification
 import com.innobothealth.accessmanagementsystem.repository.UserRepository;
 import com.innobothealth.accessmanagementsystem.service.NotificationService;
 import com.innobothealth.accessmanagementsystem.util.*;
+import org.modelmapper.ModelMapper;
 import org.springframework.http.HttpStatus;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskScheduler;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -30,14 +32,16 @@ public class NotificationServiceImpl implements NotificationService {
     private final NotificationRepository notificationRepository;
     private final ThreadPoolTaskScheduler threadPoolTaskScheduler;
     private final UserReplyNotificationRepository userReplyNotificationRepository;
+    private final ModelMapper modelMapper;
 
-    public NotificationServiceImpl(EmailSender emailSender, SMSSender smsSender, UserRepository userRepository, NotificationRepository notificationRepository, ThreadPoolTaskScheduler threadPoolTaskScheduler, UserReplyNotificationRepository userReplyNotificationRepository) {
+    public NotificationServiceImpl(EmailSender emailSender, SMSSender smsSender, UserRepository userRepository, NotificationRepository notificationRepository, ThreadPoolTaskScheduler threadPoolTaskScheduler, UserReplyNotificationRepository userReplyNotificationRepository, ModelMapper modelMapper) {
         this.emailSender = emailSender;
         this.smsSender = smsSender;
         this.userRepository = userRepository;
         this.notificationRepository = notificationRepository;
         this.threadPoolTaskScheduler = threadPoolTaskScheduler;
         this.userReplyNotificationRepository = userReplyNotificationRepository;
+        this.modelMapper = modelMapper;
     }
 
     @Override
@@ -111,8 +115,16 @@ public class NotificationServiceImpl implements NotificationService {
     }
 
     @Override
-    public List<Notification> getNotifications(String userId) {
-        return notificationRepository.findAllBySenderId(userId);
+    public List<GetNotificationDTO> getNotifications(String userId) {
+        List<GetNotificationDTO> getNotificationDTOS = new ArrayList<>();
+        List<Notification> allBySenderId = notificationRepository.findAllBySenderId(userId);
+        allBySenderId.stream().forEach(notification -> {
+            GetNotificationDTO map = modelMapper.map(notification, GetNotificationDTO.class);
+            map.setFirstName(userRepository.findById(notification.getReceiverId()).get().getFirstName());
+            map.setLastName(userRepository.findById(notification.getReceiverId()).get().getLastName());
+            getNotificationDTOS.add(map);
+        });
+        return getNotificationDTOS;
     }
 
     @Override
