@@ -38,14 +38,14 @@ public class ClaimServiceImpl implements ClaimService {
     public Claim createClaim(ClaimDTO claim) {
 
         Optional<Insurence> byId = insurenceRepository.findById(claim.getMemberId());
-        if (!byId.isPresent()) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Invalid Insurance Id");
-        }
-
+//        if (!byId.isPresent()) {
+//            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Invalid Insurance Id");
+//        }
+//
         Optional<Diagnosis> byId1 = diagnosisRepository.findById(claim.getDiagnosisId());
-        if (!byId1.isPresent()) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Invalid Diagnosis Id");
-        }
+//        if (!byId1.isPresent()) {
+//            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Invalid Diagnosis Id");
+//        }
 
         Claim map = Claim.builder()
                 .firstName(claim.getFirstName())
