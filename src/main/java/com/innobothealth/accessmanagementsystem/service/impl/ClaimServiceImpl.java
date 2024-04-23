@@ -59,8 +59,8 @@ public class ClaimServiceImpl implements ClaimService {
                 .treatmentDate(claim.getTreatmentDate())
                 .receipt(claim.getReceipt()).build();
 
-        map.setMemberId(byId.get().getId());
-        map.setDiagnosisId(byId1.get().getId());
+        map.setMemberId("6627ca68343c16c03dea96a3");
+        map.setDiagnosisId("6627cafa343c16c03dea96a5");
 
         return claimRepository.save(map);
 
