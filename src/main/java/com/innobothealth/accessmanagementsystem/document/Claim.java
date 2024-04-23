@@ -4,7 +4,6 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
@@ -22,13 +21,13 @@ public class Claim {
     private String email;
     private String firstName;
     private String lastName;
-    private Insurence member;
+    private String memberId;
     private Date dob;
     private String gender;
     private String phoneNumber;
     private String claimType;
     private int amount;
-    private Diagnosis diagnosis;
+    private String diagnosisId;
     private Date treatmentDate;
     private byte[] receipt;
 

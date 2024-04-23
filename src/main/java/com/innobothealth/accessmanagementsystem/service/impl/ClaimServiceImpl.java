@@ -38,12 +38,12 @@ public class ClaimServiceImpl implements ClaimService {
     public Claim createClaim(ClaimDTO claim) {
 
         Optional<Insurence> byId = insurenceRepository.findById(claim.getMemberId());
-        if (byId.isPresent()) {
+        if (!byId.isPresent()) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Invalid Insurance Id");
         }
 
         Optional<Diagnosis> byId1 = diagnosisRepository.findById(claim.getDiagnosisId());
-        if (byId1.isPresent()) {
+        if (!byId1.isPresent()) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Invalid Diagnosis Id");
         }
 
@@ -59,8 +59,8 @@ public class ClaimServiceImpl implements ClaimService {
                 .treatmentDate(claim.getTreatmentDate())
                 .receipt(claim.getReceipt()).build();
 
-        map.setMember(byId.orElse(null));
-        map.setDiagnosis(byId1.orElse(null));
+        map.setMemberId(byId.get().getId());
+        map.setDiagnosisId(byId1.get().getId());
 
         return claimRepository.save(map);
 
@@ -89,12 +89,12 @@ public class ClaimServiceImpl implements ClaimService {
         }
 
         Optional<Diagnosis> byId1 = diagnosisRepository.findById(claim.getDiagnosisId());
-        if (byId1.isPresent()) {
+        if (!byId1.isPresent()) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Invalid Diagnosis Id");
         }
 
         Optional<Insurence> byId2 = insurenceRepository.findById(claim.getMemberId());
-        if (byId2.isPresent()) {
+        if (!byId2.isPresent()) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Invalid Insurance Id");
         }
 
@@ -112,8 +112,8 @@ public class ClaimServiceImpl implements ClaimService {
         claim1.setTreatmentDate(claim.getTreatmentDate());
         claim1.setReceipt(claim.getReceipt());
 
-        claim1.setMember(byId2.orElse(null));
-        claim1.setDiagnosis(byId1.orElse(null));
+        claim1.setMemberId(byId2.get().getId());
+        claim1.setDiagnosisId(byId1.get().getId());
 
         return claimRepository.save(claim1);
 
