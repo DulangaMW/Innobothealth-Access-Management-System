@@ -28,7 +28,7 @@ public class Claim {
     private String phoneNumber;
     private String claimType;
     private int amount;
-    private Diagnosis diagnosis;
+    private Code diagnosis;
     private Date treatmentDate;
     private byte[] receipt;
 
