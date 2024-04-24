@@ -1,7 +1,6 @@
 package com.innobothealth.accessmanagementsystem.controller;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import com.innobothealth.accessmanagementsystem.document.Notification;
 import com.innobothealth.accessmanagementsystem.document.User;
 import com.innobothealth.accessmanagementsystem.dto.GetNotificationDTO;
 import com.innobothealth.accessmanagementsystem.dto.NotificationDTO;
