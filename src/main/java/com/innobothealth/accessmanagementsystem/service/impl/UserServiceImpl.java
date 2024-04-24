@@ -2,8 +2,11 @@ package com.innobothealth.accessmanagementsystem.service.impl;
 
 import com.innobothealth.accessmanagementsystem.document.SMSOTP;
 import com.innobothealth.accessmanagementsystem.document.User;
+import com.innobothealth.accessmanagementsystem.dto.GetUserDTO;
 import com.innobothealth.accessmanagementsystem.dto.TokenResponse;
 import com.innobothealth.accessmanagementsystem.dto.UserDTO;
+import com.innobothealth.accessmanagementsystem.repository.DoctorRepository;
+import com.innobothealth.accessmanagementsystem.repository.InsurenceRepository;
 import com.innobothealth.accessmanagementsystem.repository.SMSRepository;
 import com.innobothealth.accessmanagementsystem.repository.UserRepository;
 import com.innobothealth.accessmanagementsystem.service.UserService;
@@ -20,6 +23,8 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 @Service
@@ -35,12 +40,17 @@ public class UserServiceImpl implements UserService {
     private final ModelMapper modelMapper;
     private static final Random random = new Random();
 
-    public UserServiceImpl(UserRepository userRepository, SMSRepository smsRepository, JWTService jwtService, SMSSender smsSender, ModelMapper modelMapper) {
+    private final DoctorRepository doctorRepository;
+    private final InsurenceRepository insurenceRepository;
+
+    public UserServiceImpl(UserRepository userRepository, SMSRepository smsRepository, JWTService jwtService, SMSSender smsSender, ModelMapper modelMapper, DoctorRepository doctorRepository, InsurenceRepository insurenceRepository) {
         this.userRepository = userRepository;
         this.smsRepository = smsRepository;
         this.jwtService = jwtService;
         this.smsSender = smsSender;
         this.modelMapper = modelMapper;
+        this.doctorRepository = doctorRepository;
+        this.insurenceRepository = insurenceRepository;
     }
 
 
@@ -99,6 +109,47 @@ public class UserServiceImpl implements UserService {
                     .build();
         }
         throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Invalid OTP!");
+
+    }
+
+    @Override
+    public List<GetUserDTO> getUsers(String userType) {
+
+        List<GetUserDTO> getUserDTOList = new ArrayList<>();
+        if (userType.equals(Role.ADMIN.name()) || userType.equals(Role.STAFF.name()) || userType.equals(Role.COORDINATOR.name())) {
+            userRepository.findAllByRole(Role.valueOf(userType)).stream().forEach(user -> {
+                getUserDTOList.add(GetUserDTO.builder()
+                        .id(user.getId())
+                        .firstName(user.getFirstName())
+                        .lastName(user.getLastName())
+                        .build());
+            });
+            return getUserDTOList;
+        }
+
+        if (userType.equals("DOCTOR")) {
+            doctorRepository.findAll().stream().forEach(d -> {
+                getUserDTOList.add(GetUserDTO.builder()
+                        .id(d.getId())
+                        .firstName(d.getFirstName())
+                        .lastName(d.getLastName())
+                        .build());
+            });
+            return getUserDTOList;
+        }
+
+        if (userType.equals("INSURENCE")) {
+            insurenceRepository.findAll().stream().forEach(d -> {
+                getUserDTOList.add(GetUserDTO.builder()
+                        .id(d.getId())
+                        .firstName(d.getName())
+                        .lastName(null)
+                        .build());
+            });
+            return getUserDTOList;
+        }
+
+        throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Invalid user type!");
 
     }
 
