@@ -39,6 +39,7 @@ public class SecurityConfig {
                                 .requestMatchers(HttpMethod.GET,"/test/send-email").permitAll()
                                 .requestMatchers(HttpMethod.GET,"/test/send-sms").permitAll()
                                 .requestMatchers(HttpMethod.POST,"/admin/register").permitAll()
+                                .requestMatchers(HttpMethod.GET,"/admin/getAll").permitAll()
                                 .requestMatchers(HttpMethod.POST,"/admin/request/token").permitAll()
                                 .requestMatchers(HttpMethod.DELETE,"/appointment/delete/{id}").permitAll()
                                 .requestMatchers(HttpMethod.PUT,"/appointment/update/{id}").permitAll()

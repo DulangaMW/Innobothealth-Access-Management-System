@@ -69,7 +69,7 @@ public class UserServiceImpl implements UserService {
             return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
         }
         User userDoc = modelMapper.map(admin, User.class);
-        userDoc.setRole(Role.ADMIN);
+        userDoc.setRole(admin.getRole());
         userDoc.setIsActivated(true);
         userDoc.setIsMFAEnabled(true);
         userDoc.setIsEmailVerified(false);
@@ -151,6 +151,11 @@ public class UserServiceImpl implements UserService {
 
         throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Invalid user type!");
 
+    }
+
+    @Override
+    public List<User> getAllUsers() {
+        return userRepository.findAll();
     }
 
     private String otpGenerator() {

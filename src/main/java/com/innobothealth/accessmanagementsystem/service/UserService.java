@@ -17,5 +17,6 @@ public interface UserService {
     UserDetailsService userDetailsService();
     TokenResponse generateToken(String email, String otp);
     List<GetUserDTO> getUsers(String userType);
+    List<User> getAllUsers();
 
 }
