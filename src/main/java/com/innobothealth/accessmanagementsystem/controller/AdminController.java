@@ -41,4 +41,9 @@ public class AdminController {
         userService.deleteUSer(id);
     }
 
+    @PutMapping("update/{id}")
+    public User updateUser(@PathVariable String id, @RequestBody UserDTO user) {
+        return userService.updateUser(id, user);
+    }
+
 }

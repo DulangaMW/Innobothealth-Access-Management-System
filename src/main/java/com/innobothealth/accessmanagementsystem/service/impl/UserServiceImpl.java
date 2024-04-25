@@ -168,6 +168,22 @@ public class UserServiceImpl implements UserService {
         userRepository.delete(byId.get());
     }
 
+    @Override
+    public User updateUser(String id, UserDTO user) {
+        Optional<User> byId = userRepository.findById(id);
+        if (!byId.isPresent()) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found!");
+        }
+        User user1 = byId.get();
+        user1.setFirstName(user.getFirstName());
+        user1.setLastName(user.getLastName());
+        user1.setPassword(user.getPassword());
+        user1.setMobileNumber(user.getMobileNumber());
+        user1.setRole(user.getRole());
+        user1.setNotificationPreference(user.getNotificationPreference());
+        return userRepository.save(user1);
+    }
+
     private String otpGenerator() {
         return String.valueOf(random.nextInt(900000) + 100000);
     }

@@ -20,4 +20,6 @@ public interface UserService {
     List<User> getAllUsers();
 
     void deleteUSer(String id);
+
+    User updateUser(String id, UserDTO user);
 }
