@@ -12,19 +12,12 @@ import org.springframework.data.mongodb.core.mapping.Document;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class Insurence {
+public class UserReplyNotification {
 
     @Id
     private String id;
-
-    private String memberId;
-    private String name;
-    private String address;
-    private String phoneNumber;
-    private String payerId;
-    private String activeStatus;
-    private String city;
-    private String state;
-    private String zip;
+    private String notificationId;
+    private String userId;
+    private String reply;
 
 }

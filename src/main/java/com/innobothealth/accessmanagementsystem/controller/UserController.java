@@ -1,12 +1,16 @@
 package com.innobothealth.accessmanagementsystem.controller;
 
 import com.innobothealth.accessmanagementsystem.document.User;
+import com.innobothealth.accessmanagementsystem.dto.GetUserDTO;
 import com.innobothealth.accessmanagementsystem.dto.UserDTO;
 import com.innobothealth.accessmanagementsystem.service.UserService;
+import jakarta.validation.constraints.NotNull;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("user")
@@ -26,5 +30,9 @@ public class UserController {
         return userService.registerUser(user);
     }
 
+    @GetMapping("getUsers")
+    public List<GetUserDTO> getUsers(@NotNull @RequestParam String userType) {
+        return userService.getUsers(userType);
+    }
 
 }
