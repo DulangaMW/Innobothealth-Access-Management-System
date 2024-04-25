@@ -19,4 +19,5 @@ public interface UserService {
     List<GetUserDTO> getUsers(String userType);
     List<User> getAllUsers();
 
+    void deleteUSer(String id);
 }

@@ -25,6 +25,7 @@ import org.springframework.web.server.ResponseStatusException;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.Random;
 
 @Service
@@ -156,6 +157,15 @@ public class UserServiceImpl implements UserService {
     @Override
     public List<User> getAllUsers() {
         return userRepository.findAll();
+    }
+
+    @Override
+    public void deleteUSer(String id) {
+        Optional<User> byId = userRepository.findById(id);
+        if (!byId.isPresent()) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found!");
+        }
+        userRepository.delete(byId.get());
     }
 
     private String otpGenerator() {
