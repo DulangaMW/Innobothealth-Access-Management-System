@@ -12,14 +12,14 @@ import org.springframework.data.mongodb.core.mapping.Document;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class Diagnosis {
+public class Code {
 
     @Id
     private String id;
 
     private String codeType;
-    private String code;
-    private String title;
+    private String codeName;
+    private String codeTitle;
     private String description;
 
 }

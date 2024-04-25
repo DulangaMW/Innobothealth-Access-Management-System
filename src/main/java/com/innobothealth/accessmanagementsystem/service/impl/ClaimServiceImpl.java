@@ -1,15 +1,14 @@
 package com.innobothealth.accessmanagementsystem.service.impl;
 
 import com.innobothealth.accessmanagementsystem.document.Claim;
-import com.innobothealth.accessmanagementsystem.document.Diagnosis;
+import com.innobothealth.accessmanagementsystem.document.Code;
 import com.innobothealth.accessmanagementsystem.document.Insurence;
 import com.innobothealth.accessmanagementsystem.dto.ClaimDTO;
 import com.innobothealth.accessmanagementsystem.repository.ClaimRepository;
-import com.innobothealth.accessmanagementsystem.repository.DiagnosisRepository;
+import com.innobothealth.accessmanagementsystem.repository.CodeRepository;
 import com.innobothealth.accessmanagementsystem.repository.InsurenceRepository;
 import com.innobothealth.accessmanagementsystem.service.ClaimService;
 import lombok.extern.slf4j.Slf4j;
-import org.bson.types.ObjectId;
 import org.modelmapper.ModelMapper;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -24,13 +23,13 @@ public class ClaimServiceImpl implements ClaimService {
 
     private final ModelMapper modelMapper;
     private final InsurenceRepository insurenceRepository;
-    private final DiagnosisRepository diagnosisRepository;
+    private final CodeRepository diagnosisRepository;
     private final ClaimRepository claimRepository;
 
-    public ClaimServiceImpl(ModelMapper modelMapper, InsurenceRepository insurenceRepository, DiagnosisRepository diagnosisRepository, ClaimRepository claimRepository) {
+    public ClaimServiceImpl(ModelMapper modelMapper, InsurenceRepository insurenceRepository, CodeRepository codeRepository, ClaimRepository claimRepository) {
         this.modelMapper = modelMapper;
         this.insurenceRepository = insurenceRepository;
-        this.diagnosisRepository = diagnosisRepository;
+        this.diagnosisRepository = codeRepository;
         this.claimRepository = claimRepository;
     }
 
@@ -88,8 +87,8 @@ public class ClaimServiceImpl implements ClaimService {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Claim not found");
         }
 
-        Optional<Diagnosis> byId1 = diagnosisRepository.findById(claim.getDiagnosisId());
-        if (!byId1.isPresent()) {
+        Optional<Code> byId1 = diagnosisRepository.findById(claim.getDiagnosisId());
+        if (byId1.isPresent()) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Invalid Diagnosis Id");
         }
 
