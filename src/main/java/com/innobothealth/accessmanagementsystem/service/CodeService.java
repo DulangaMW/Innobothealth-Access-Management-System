@@ -11,5 +11,4 @@ public interface CodeService {
     void deleteCode(String codeId);
     List<Code> getAllCodes();
     Code updateCode(String codeId, CodeDTO code);
-    void approveCode(String id);
 }

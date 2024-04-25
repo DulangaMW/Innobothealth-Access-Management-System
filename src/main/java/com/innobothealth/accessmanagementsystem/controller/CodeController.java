@@ -75,9 +75,4 @@ public class CodeController {
 
     }
 
-    @PutMapping("approve/{id}")
-    public void approveCode(@PathVariable("id") @NotNull String id) {
-        codeService.approveCode(id);
-    }
-
 }
