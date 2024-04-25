@@ -41,7 +41,7 @@ public class ClaimServiceImpl implements ClaimService {
 //            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Invalid Insurance Id");
 //        }
 //
-        Optional<Diagnosis> byId1 = diagnosisRepository.findById(claim.getDiagnosisId());
+        Optional<Code> byId1 = diagnosisRepository.findById(claim.getDiagnosisId());
 //        if (!byId1.isPresent()) {
 //            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Invalid Diagnosis Id");
 //        }
