@@ -172,7 +172,7 @@ public class UserServiceImpl implements UserService {
     public User updateUser(String id, UserDTO user) {
         Optional<User> byId = userRepository.findById(id);
         if (!byId.isPresent()) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found!");
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "User not found!");
         }
         User user1 = byId.get();
         user1.setFirstName(user.getFirstName());
