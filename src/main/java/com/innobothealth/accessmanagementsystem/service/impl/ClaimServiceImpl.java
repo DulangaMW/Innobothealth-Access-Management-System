@@ -87,10 +87,10 @@ public class ClaimServiceImpl implements ClaimService {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Claim not found");
         }
 
-        Optional<Insurence> byId2 = insurenceRepository.findById(claim.getMemberId());
-        if (!byId2.isPresent()) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Invalid Insurance Id");
-        }
+//        Optional<Insurence> byId2 = insurenceRepository.findById(claim.getMemberId());
+//        if (!byId2.isPresent()) {
+//            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Invalid Insurance Id");
+//        }
 
 
         Claim claim1 = byId.get();
@@ -103,7 +103,7 @@ public class ClaimServiceImpl implements ClaimService {
         claim1.setTreatmentDate(claim.getTreatmentDate());
         claim1.setReceipt(claim.getReceipt());
 
-        claim1.setMemberId(byId2.get().getId());
+//        claim1.setMemberId(byId2.get().getId());
 
         return claimRepository.save(claim1);
 
