@@ -34,5 +34,14 @@ public class UserController {
     public List<GetUserDTO> getUsers(@NotNull @RequestParam String userType) {
         return userService.getUsers(userType);
     }
-
+    @DeleteMapping("delete/{userId}")
+    public ResponseEntity<String> deleteUser(@PathVariable String userId) {
+        try {
+            userService.deleteUser(userId);
+            return ResponseEntity.ok("User deleted successfully");
+        } catch (Exception e) {
+            log.error("Error deleting user with ID: {}", userId, e);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Failed to delete user");
+        }
+    }
 }
