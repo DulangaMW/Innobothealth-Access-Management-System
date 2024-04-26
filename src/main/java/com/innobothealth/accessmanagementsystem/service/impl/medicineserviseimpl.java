@@ -20,6 +20,7 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class medicineserviseimpl implements medicineservise {
 
+
     private final medicinerepository Mrepository;
     private final ModelMapper mapper;
     private final SequenceService sequenceService;
