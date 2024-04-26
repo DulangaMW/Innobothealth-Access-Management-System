@@ -87,11 +87,6 @@ public class ClaimServiceImpl implements ClaimService {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Claim not found");
         }
 
-        Optional<Code> byId1 = diagnosisRepository.findById(claim.getDiagnosisId());
-        if (byId1.isPresent()) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Invalid Diagnosis Id");
-        }
-
         Optional<Insurence> byId2 = insurenceRepository.findById(claim.getMemberId());
         if (!byId2.isPresent()) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Invalid Insurance Id");
