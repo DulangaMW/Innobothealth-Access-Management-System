@@ -59,7 +59,6 @@ public class SupplierServiseImpl implements SupplierServise {
         if (optionalEntity.isPresent()) {
             // If the entity exists, update its details
             SupplierEntity entityToUpdate = optionalEntity.get();
-            entityToUpdate.setCompanyName(dto.getCompanyName());
             entityToUpdate.setSupplier_name(dto.getSupplier_name());
             entityToUpdate.setCountry(dto.getCountry());
             entityToUpdate.setContact_person(dto.getContact_person());
