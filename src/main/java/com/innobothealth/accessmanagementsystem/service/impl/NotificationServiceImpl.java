@@ -4,6 +4,7 @@ import com.innobothealth.accessmanagementsystem.document.Notification;
 import com.innobothealth.accessmanagementsystem.document.User;
 import com.innobothealth.accessmanagementsystem.document.UserReplyNotification;
 import com.innobothealth.accessmanagementsystem.dto.GetNotificationDTO;
+import com.innobothealth.accessmanagementsystem.dto.MyNotificationDTO;
 import com.innobothealth.accessmanagementsystem.dto.NotificationDTO;
 import com.innobothealth.accessmanagementsystem.dto.NotificationReply;
 import com.innobothealth.accessmanagementsystem.repository.NotificationRepository;
@@ -22,6 +23,7 @@ import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 public class NotificationServiceImpl implements NotificationService {
@@ -116,15 +118,13 @@ public class NotificationServiceImpl implements NotificationService {
 
     @Override
     public List<GetNotificationDTO> getNotifications(String userId) {
-        List<GetNotificationDTO> getNotificationDTOS = new ArrayList<>();
         List<Notification> allBySenderId = notificationRepository.findAllBySenderId(userId);
-        allBySenderId.stream().forEach(notification -> {
+        return allBySenderId.stream().map(notification -> {
             GetNotificationDTO map = modelMapper.map(notification, GetNotificationDTO.class);
             map.setFirstName(userRepository.findById(notification.getReceiverId()).get().getFirstName());
             map.setLastName(userRepository.findById(notification.getReceiverId()).get().getLastName());
-            getNotificationDTOS.add(map);
-        });
-        return getNotificationDTOS;
+            return map;
+        }).toList();
     }
 
     @Override
@@ -158,20 +158,34 @@ public class NotificationServiceImpl implements NotificationService {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Invalid notification");
         }
 
-        List<NotificationReply> notificationReplies = new ArrayList<>();
-        userReplyNotificationRepository.findAllByUserIdAndNotificationId(userId, notificationId).stream().forEach(userReplyNotification -> {
-            notificationReplies.add(
-                    NotificationReply.builder()
+        return userReplyNotificationRepository.findAllByUserIdAndNotificationId(userId, notificationId).stream().map(userReplyNotification -> {
+                    return NotificationReply.builder()
                             .id(userReplyNotification.getId())
                             .notificationId(userReplyNotification.getNotificationId())
                             .userId(userReplyNotification.getUserId())
                             .firstName(userRepository.findById(userReplyNotification.getUserId()).get().getFirstName())
                             .lastName(userRepository.findById(userReplyNotification.getUserId()).get().getLastName())
                             .reply(userReplyNotification.getReply())
-                            .build()
-            );
-        });
-        return notificationReplies;
+                            .build();
+        }).toList();
+    }
+
+    @Override
+    public List<MyNotificationDTO> getMyNotification(String userId) {
+        return notificationRepository.findAllByReceiverIdAndIsAcknowledged(userId, false).stream().map(notification -> {
+            MyNotificationDTO.MyNotificationDTOBuilder builder = MyNotificationDTO.builder();
+            Optional<User> byId = userRepository.findById(notification.getSenderId());
+            if (byId.isPresent()) {
+                User user = byId.get();
+                builder.id(notification.getId())
+                        .senderFistName(user.getFirstName())
+                        .senderLastName(user.getLastName())
+                        .subject(notification.getSubject())
+                        .message(notification.getMessage())
+                        .deliveredTime(notification.getDeliveredTime());
+            }
+            return builder.build();
+        }).toList();
     }
 
 

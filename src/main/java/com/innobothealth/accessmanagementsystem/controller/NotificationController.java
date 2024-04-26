@@ -1,8 +1,10 @@
 package com.innobothealth.accessmanagementsystem.controller;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import com.innobothealth.accessmanagementsystem.document.Notification;
 import com.innobothealth.accessmanagementsystem.document.User;
 import com.innobothealth.accessmanagementsystem.dto.GetNotificationDTO;
+import com.innobothealth.accessmanagementsystem.dto.MyNotificationDTO;
 import com.innobothealth.accessmanagementsystem.dto.NotificationDTO;
 import com.innobothealth.accessmanagementsystem.dto.NotificationReply;
 import com.innobothealth.accessmanagementsystem.service.NotificationService;
@@ -49,6 +51,11 @@ public class NotificationController {
     @GetMapping("reply/get/{id}")
     public List<NotificationReply> getReply(@AuthenticationPrincipal User user, @PathVariable String id) {
         return notificationService.getReply(user.getId(), id);
+    }
+
+    @GetMapping("get/mynotification")
+    public List<MyNotificationDTO> getAcknowledgedNotifications(@AuthenticationPrincipal User user) {
+        return notificationService.getMyNotification(user.getId());
     }
 
 }

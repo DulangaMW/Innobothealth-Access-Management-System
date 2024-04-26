@@ -11,4 +11,5 @@ public interface NotificationRepository extends MongoRepository<Notification, St
 
     List<Notification> findAllBySenderId(String receiver);
     Notification findByIdAndReceiverId(String id, String receiverId);
+    List<Notification> findAllByReceiverIdAndIsAcknowledged(String receiverId, boolean acknowledged);
 }
