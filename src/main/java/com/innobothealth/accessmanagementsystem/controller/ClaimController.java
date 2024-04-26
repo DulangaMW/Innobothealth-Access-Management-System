@@ -78,13 +78,9 @@ public class ClaimController {
             @RequestParam("firstName") @NotNull String firstName,
             @RequestParam("lastName") @NotNull String lastName,
             @RequestParam("memberId") @NotNull String memberId,
-            @RequestParam("dob") @NotNull String date,
             @RequestParam("email") @NotNull String email,
-            @RequestParam("gender") @NotNull String gender,
             @RequestParam("phoneNumber") @NotNull String phoneNumber,
-            @RequestParam("claimType") @NotNull String claimType,
             @RequestParam("amount") @NotNull int amount,
-            @RequestParam("diagnosisId") @NotNull String diagnosisId,
             @RequestParam("treatmentDate") @NotNull String treatmentDate,
             @RequestParam("receipt") MultipartFile receipt) throws ParseException, IOException {
 
@@ -92,13 +88,9 @@ public class ClaimController {
                 .firstName(firstName)
                 .lastName(lastName)
                 .memberId(memberId)
-                .dob(dateFormat.parse(date))
-                .gender(gender)
                 .email(email)
                 .phoneNumber(phoneNumber)
-                .claimType(claimType)
                 .amount(amount)
-                .diagnosisId(diagnosisId)
                 .treatmentDate(dateFormat.parse(treatmentDate))
                 .receipt(receipt.getBytes())
                 .build();

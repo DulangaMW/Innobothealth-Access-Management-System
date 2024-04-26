@@ -101,18 +101,14 @@ public class ClaimServiceImpl implements ClaimService {
         Claim claim1 = byId.get();
         claim1.setFirstName(claim.getFirstName());
         claim1.setLastName(claim.getLastName());
-        claim1.setDob(claim.getDob());
         claim1.setEmail(claim.getEmail());
-        claim1.setGender(claim.getGender());
         claim1.setPhoneNumber(claim.getPhoneNumber());
-        claim1.setClaimType(claim.getClaimType());
         claim1.setAmount(claim.getAmount());
 
         claim1.setTreatmentDate(claim.getTreatmentDate());
         claim1.setReceipt(claim.getReceipt());
 
         claim1.setMemberId(byId2.get().getId());
-        claim1.setDiagnosisId(byId1.get().getId());
 
         return claimRepository.save(claim1);
 
