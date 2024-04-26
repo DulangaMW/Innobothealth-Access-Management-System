@@ -19,4 +19,5 @@ public class SupplierEntity {
     private String contact_person;
     private String phone;
     private String country;
+
 }
