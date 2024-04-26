@@ -121,6 +121,7 @@ public class UserServiceImpl implements UserService {
                         .build());
             });
             return getUserDTOList;
+
         }
 
         if (userType.equals("DOCTOR")) {
