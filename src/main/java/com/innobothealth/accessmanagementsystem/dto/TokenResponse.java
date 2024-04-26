@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.security.core.userdetails.UserDetails;
 
 @Data
 @AllArgsConstructor
@@ -16,4 +17,5 @@ public class TokenResponse {
     private String accessToken;
     @JsonProperty("refresh_token")
     private String refreshToken;
+    private UserDetails userDetails;
 }

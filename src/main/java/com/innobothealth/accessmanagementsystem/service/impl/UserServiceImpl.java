@@ -102,6 +102,7 @@ public class UserServiceImpl implements UserService {
             UserDetails user = userRepository.findByEmail(email);
             return TokenResponse.builder().accessToken(jwtService.generateToken(user))
                     .refreshToken(jwtService.generateRefreshToken(user))
+                    .userDetails(user)
                     .build();
         }
         throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Invalid OTP!");
