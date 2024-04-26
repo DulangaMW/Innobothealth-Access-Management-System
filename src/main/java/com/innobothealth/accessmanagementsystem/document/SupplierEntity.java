@@ -12,7 +12,9 @@ import org.springframework.data.mongodb.core.mapping.Document;
 @Document(collection = "Supplier_details")
 public class SupplierEntity {
     @Id
-    private String companyName;
+    private String id;
+    @Indexed(unique=true)
+    private Long Suplierid;
     private String supplier_name;
     private String contact_person;
     private String phone;
