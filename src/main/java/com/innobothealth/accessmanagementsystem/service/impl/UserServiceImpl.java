@@ -205,12 +205,5 @@ public class UserServiceImpl implements UserService {
         }
         smsSender.sendOTP(otp, user.getMobileNumber());
     }
-    @Override
-public void deleteUSer(String id) {
-    Optional<User> byId = userRepository.findById(id);
-    if (!byId.isPresent()) {
-        throw new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found!");
-    }
-    userRepository.delete(byId.get());
-}
+
 }
