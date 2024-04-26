@@ -26,6 +26,11 @@ public class AdminController {
         return userService.registerAdmin(user);
     }
 
+    @PostMapping("otp/request")
+    public void requestOTP(@RequestBody JsonNode jsonNode) {
+        userService.requestOTP(jsonNode.get("email").asText(), jsonNode.get("password").asText());
+    }
+
     @PostMapping("request/token")
     public TokenResponse getAccessToken(@RequestBody JsonNode jsonNode) {
         return userService.generateToken(jsonNode.get("email").asText(), jsonNode.get("otp").asText());

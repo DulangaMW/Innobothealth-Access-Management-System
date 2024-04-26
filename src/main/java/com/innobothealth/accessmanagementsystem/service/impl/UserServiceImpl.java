@@ -10,6 +10,7 @@ import com.innobothealth.accessmanagementsystem.repository.InsurenceRepository;
 import com.innobothealth.accessmanagementsystem.repository.SMSRepository;
 import com.innobothealth.accessmanagementsystem.repository.UserRepository;
 import com.innobothealth.accessmanagementsystem.service.UserService;
+import com.innobothealth.accessmanagementsystem.util.EmailSender;
 import com.innobothealth.accessmanagementsystem.util.JWTService;
 import com.innobothealth.accessmanagementsystem.util.Role;
 import com.innobothealth.accessmanagementsystem.util.SMSSender;
@@ -43,8 +44,9 @@ public class UserServiceImpl implements UserService {
 
     private final DoctorRepository doctorRepository;
     private final InsurenceRepository insurenceRepository;
+    private final EmailSender emailSender;
 
-    public UserServiceImpl(UserRepository userRepository, SMSRepository smsRepository, JWTService jwtService, SMSSender smsSender, ModelMapper modelMapper, DoctorRepository doctorRepository, InsurenceRepository insurenceRepository) {
+    public UserServiceImpl(UserRepository userRepository, SMSRepository smsRepository, JWTService jwtService, SMSSender smsSender, ModelMapper modelMapper, DoctorRepository doctorRepository, InsurenceRepository insurenceRepository, EmailSender emailSender) {
         this.userRepository = userRepository;
         this.smsRepository = smsRepository;
         this.jwtService = jwtService;
@@ -52,6 +54,7 @@ public class UserServiceImpl implements UserService {
         this.modelMapper = modelMapper;
         this.doctorRepository = doctorRepository;
         this.insurenceRepository = insurenceRepository;
+        this.emailSender = emailSender;
     }
 
 
@@ -75,16 +78,8 @@ public class UserServiceImpl implements UserService {
         userDoc.setIsMFAEnabled(true);
         userDoc.setIsEmailVerified(false);
         User save = userRepository.save(userDoc);
-        SMSOTP byEmail = smsRepository.findByEmail(admin.getEmail());
-        String otp = otpGenerator();
-        if (byEmail != null) {
-            byEmail.setOtp(otp);
-            byEmail.setExp(System.currentTimeMillis() + 1000L * 60 * 60 * 24 * 30);
-            smsRepository.save(byEmail);
-        } else {
-            smsRepository.save(SMSOTP.builder().email(save.getEmail()).otp(otp).exp(System.currentTimeMillis() + 1000L * 60 * 60 * 24 * 30).build());
-        }
-        smsSender.sendOTP(otp, save.getMobileNumber());
+        emailSender.sendEmail(save.getEmail(), "User Registration | InnobotHealth", "You have been successfully registered to InnobotHealth. Sign in with your email (".concat(save.getEmail()).concat(") and to access the admin portal."));
+        smsSender.sendNotification("You have been successfully registered to InnobotHealth. Sign in with your email (".concat(save.getEmail()).concat(save.getEmail()).concat(") and to access the admin portal."), save.getMobileNumber());
         return ResponseEntity.status(HttpStatus.CREATED).body(save);
     }
 
@@ -184,8 +179,29 @@ public class UserServiceImpl implements UserService {
         return userRepository.save(user1);
     }
 
+    @Override
+    public void requestOTP(String email, String password) {
+        Optional<User> byEmailAndPassword = userRepository.findByEmailAndPassword(email, password);
+        if (!byEmailAndPassword.isPresent()) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Invalid User!");
+        }
+        sendOTP(otpGenerator(), byEmailAndPassword.get());
+    }
+
     private String otpGenerator() {
         return String.valueOf(random.nextInt(900000) + 100000);
+    }
+
+    private void sendOTP(String otp, User user) {
+        SMSOTP byEmail = smsRepository.findByEmail(user.getEmail());
+        if (byEmail != null) {
+            byEmail.setOtp(otp);
+            byEmail.setExp(System.currentTimeMillis() + 1000L * 60 * 60 * 24 * 30);
+            smsRepository.save(byEmail);
+        } else {
+            smsRepository.save(SMSOTP.builder().email(user.getEmail()).otp(otp).exp(System.currentTimeMillis() + 1000L * 60 * 60 * 24 * 30).build());
+        }
+        smsSender.sendOTP(otp, user.getMobileNumber());
     }
 
 }
