@@ -11,6 +11,7 @@ import lombok.*;
 public class MedicineDto {
 
     private String medicineName;
+    private String medicineType;
     private String supplier;
     private String expireDate;
     private Integer quantity;

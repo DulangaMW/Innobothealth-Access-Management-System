@@ -10,6 +10,7 @@ import lombok.*;
 public class MedicineDtoSU {
     private Long Stockid;
     private String medicineName;
+    private String medicineType;
     private String supplier;
     private String expireDate;
     private Integer quantity;

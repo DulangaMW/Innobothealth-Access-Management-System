@@ -66,6 +66,7 @@ public class medicineserviseimpl implements medicineservise {
         if (optionalEntity.isPresent()) {
             // If the entity exists, update its details
             MedicineEntity entityToUpdate = optionalEntity.get();
+            entityToUpdate.setMedicineType(dto.getMedicineType());
             entityToUpdate.setMedicineName(dto.getMedicineName());
             entityToUpdate.setExpireDate(dto.getExpireDate());
             entityToUpdate.setQuantity(dto.getQuantity());

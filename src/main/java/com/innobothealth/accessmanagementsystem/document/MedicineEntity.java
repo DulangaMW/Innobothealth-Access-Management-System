@@ -16,6 +16,7 @@ public class MedicineEntity {
     private String id;
     @Indexed(unique=true)
     private Long Stockid;
+    private String medicineType;
     private String medicineName;
     private String supplier;
     private String expireDate;
