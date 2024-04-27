@@ -78,8 +78,8 @@ public class UserServiceImpl implements UserService {
         userDoc.setIsMFAEnabled(true);
         userDoc.setIsEmailVerified(false);
         User save = userRepository.save(userDoc);
-        emailSender.sendEmail(save.getEmail(), "User Registration | InnobotHealth", "You have been successfully registered to InnobotHealth. Sign in with your email (".concat(save.getEmail()).concat(") and to access the admin portal."));
-        smsSender.sendNotification("You have been successfully registered to InnobotHealth. Sign in with your email (".concat(save.getEmail()).concat(save.getEmail()).concat(") and to access the admin portal."), save.getMobileNumber());
+        emailSender.sendEmail(save.getEmail(), "User Registration | InnobotHealth", "You have been successfully registered to InnobotHealth. Sign in with your email ".concat(save.getEmail()).concat(" and password ".concat(save.getPassword()).concat("to access the admin portal.")));
+        smsSender.sendNotification("You have been successfully registered to InnobotHealth. Sign in with your email ".concat(save.getEmail()).concat(" and password ").concat(save.getPassword()).concat(" to access the admin portal."), save.getMobileNumber());
         return ResponseEntity.status(HttpStatus.CREATED).body(save);
     }
 
