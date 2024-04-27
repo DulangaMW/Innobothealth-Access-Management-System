@@ -119,10 +119,11 @@ public class NotificationServiceImpl implements NotificationService {
     @Override
     public List<GetNotificationDTO> getNotifications(String userId) {
         List<Notification> allBySenderId = notificationRepository.findAllBySenderId(userId);
-        return allBySenderId.stream().map(notification -> {
+        return allBySenderId.stream().filter(notification -> userRepository.findById(notification.getReceiverId()).isPresent()).map(notification -> {
             GetNotificationDTO map = modelMapper.map(notification, GetNotificationDTO.class);
-            map.setFirstName(userRepository.findById(notification.getReceiverId()).get().getFirstName());
-            map.setLastName(userRepository.findById(notification.getReceiverId()).get().getLastName());
+            Optional<User> byId = userRepository.findById(notification.getReceiverId());
+            map.setFirstName(byId.get().getFirstName());
+            map.setLastName(byId.get().getLastName());
             return map;
         }).toList();
     }
