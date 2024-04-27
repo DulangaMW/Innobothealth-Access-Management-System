@@ -189,6 +189,15 @@ public class NotificationServiceImpl implements NotificationService {
         }).toList();
     }
 
+    @Override
+    public void deleteNotification(String userId, String notificationId) {
+        Notification byIdAndReceiverId = notificationRepository.findByIdAndReceiverId(notificationId, userId);
+        if (byIdAndReceiverId == null) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Invalid notification");
+        }
+        notificationRepository.delete(byIdAndReceiverId);
+    }
+
 
     private String createMessage(String receiver, String subject, String message, boolean anonymous, String priority, String firstName) {
         StringBuilder stringBuilder = new StringBuilder();

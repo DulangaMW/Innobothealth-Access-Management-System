@@ -58,4 +58,9 @@ public class NotificationController {
         return notificationService.getMyNotification(user.getId());
     }
 
+    @DeleteMapping("delete/{id}")
+    public void deleteNotification(@AuthenticationPrincipal User user, String notificationId) {
+        notificationService.deleteNotification(user.getId(), notificationId);
+    }
+
 }

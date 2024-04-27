@@ -15,4 +15,5 @@ public interface NotificationService {
     void replyNotification(String userId, String reply, String notificationId);
     List<NotificationReply> getReply(String userId, String notificationId);
     List<MyNotificationDTO> getMyNotification(String userId);
+    void deleteNotification(String userId, String notificationId);
 }

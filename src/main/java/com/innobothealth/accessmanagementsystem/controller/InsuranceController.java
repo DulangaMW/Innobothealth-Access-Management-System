@@ -10,6 +10,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("insurance")
 @Slf4j
@@ -25,6 +27,21 @@ public class InsuranceController {
     @PostMapping("create")
     public Insurence registerInsurance(@RequestBody @Validated InsuranceDTO insuranceDTO) {
         return insuranceService.createInsurence(insuranceDTO);
+    }
+
+    @PostMapping("update/{id}")
+    public Insurence updateInsurance(@RequestBody @Validated InsuranceDTO insuranceDTO, @PathVariable String id) {
+        return insuranceService.updateInsurance(insuranceDTO, id);
+    }
+
+    @PostMapping("delete/{id}")
+    public void deleteInsurance(@PathVariable String id) {
+        insuranceService.deleteInsurance(id);
+    }
+
+    @PostMapping("getAll")
+    public List<Insurence> getAllInsurance() {
+        return insuranceService.getAllInsurances();
     }
 
 }
