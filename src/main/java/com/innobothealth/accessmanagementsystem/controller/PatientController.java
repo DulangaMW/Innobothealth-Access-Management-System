@@ -4,10 +4,7 @@ import com.innobothealth.accessmanagementsystem.document.Patient;
 import com.innobothealth.accessmanagementsystem.dto.PatientDTO;
 import com.innobothealth.accessmanagementsystem.service.PatientService;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("patient")
@@ -22,7 +19,7 @@ public class PatientController {
     }
 
     @PostMapping("create")
-    public Patient createPatient(PatientDTO patientDTO) {
+    public Patient createPatient(@RequestBody PatientDTO patientDTO) {
         return patientService.createpatient(patientDTO);
     }
 
