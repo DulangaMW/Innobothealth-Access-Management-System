@@ -191,7 +191,7 @@ public class NotificationServiceImpl implements NotificationService {
 
     @Override
     public void deleteNotification(String userId, String notificationId) {
-        Notification byIdAndReceiverId = notificationRepository.findByIdAndReceiverId(notificationId, userId);
+        Notification byIdAndReceiverId = notificationRepository.findByIdAndSenderId(notificationId, userId);
         if (byIdAndReceiverId == null) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Invalid notification");
         }
