@@ -55,11 +55,11 @@ public class SupplierServiseImpl implements SupplierServise {
     public Optional<SupplierEntity> updateSupplier(SupplierDto dto) {
         log.info("Received details to update: {}", dto);
         // Find the medicine entity by its name
-        Optional<SupplierEntity> optionalEntity = Optional.ofNullable(Mrepository.findByCompanyName(dto.getSupplier_name()));
+        Optional<SupplierEntity> optionalEntity = Optional.ofNullable(Mrepository.findByCompanyName(dto.getSupplier()));
         if (optionalEntity.isPresent()) {
             // If the entity exists, update its details
             SupplierEntity entityToUpdate = optionalEntity.get();
-            entityToUpdate.setSupplier_name(dto.getSupplier_name());
+            entityToUpdate.setSupplier(dto.getSupplier());
             entityToUpdate.setCountry(dto.getCountry());
             entityToUpdate.setContact_person(dto.getContact_person());
             entityToUpdate.setPhone(dto.getPhone());
@@ -69,7 +69,7 @@ public class SupplierServiseImpl implements SupplierServise {
             log.info("Updated entity: {}", updatedEntity);
             return Optional.of(updatedEntity);
         } else {
-            log.info("No medicine found with name: {}", dto.getSupplier_name());
+            log.info("No medicine found with name: {}", dto.getSupplier());
             return Optional.empty();
         }
     }
