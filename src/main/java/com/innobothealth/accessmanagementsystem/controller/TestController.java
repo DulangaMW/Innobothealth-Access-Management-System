@@ -23,7 +23,7 @@ public class TestController {
 
     @GetMapping("say-hello")
     public String sayHello() {
-        return "Hello InnobotHealth!, I'm deployed, and online!";
+        return "I'm live!";
     }
 
     @GetMapping("send-email")
