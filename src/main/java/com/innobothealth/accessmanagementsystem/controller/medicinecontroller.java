@@ -45,7 +45,7 @@ public class medicinecontroller {
     }
 
     @GetMapping("/{id}")
-    public MedicineDto getMedicineId(@PathVariable Long id){
+    public MedicineDto getMedicineId(@PathVariable String id){
         return MedicineServise.getMedicineId(id);
     }
 
@@ -63,9 +63,9 @@ public class medicinecontroller {
     public Optional<MedicineEntity> updateMedicine(@RequestBody MedicineDtoSU dto){
         return MedicineServise.updateMedicine(dto);
     }
-    @DeleteMapping("/{medicineName}")
-    public String deleteExpireMedicine(@PathVariable String medicineName){
-        return MedicineServise.deleteExpireMedicine(medicineName);
+    @DeleteMapping("/{id}")
+    public String deleteExpireMedicine(@PathVariable String id){
+        return MedicineServise.deleteExpireMedicine(id);
     }
 
     @GetMapping("/ex")

@@ -12,11 +12,11 @@ public interface medicineservise {
     void addmedicineservise(MedicineDto dto);
     List<MedicineDtoSU> AllmedicineShow();
     MedicineDtoSU getMedicineName(String medicineName);
-    MedicineDto getMedicineId(Long id);
+    MedicineDto getMedicineId(String id);
 
     Optional<MedicineEntity> updateMedicine(MedicineDtoSU dto);
 
-    String deleteExpireMedicine(String medicineName);
+    String deleteExpireMedicine(String stockId);
 
     List<MedicineDtoSU> ExpireMedicineShow();
 
