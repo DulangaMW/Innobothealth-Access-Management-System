@@ -9,7 +9,7 @@ import lombok.*;
 @ToString
 
 public class MedicineDto {
-
+    private Long Stockid;
     private String medicineName;
     private String medicineType;
     private String supplier;

@@ -74,7 +74,6 @@ public class SecurityConfig {
                                 .requestMatchers(HttpMethod.GET,"/supplier/name/{SupplierName}").permitAll()
                                 .requestMatchers(HttpMethod.PUT,"/supplier").permitAll()
                                 .requestMatchers(HttpMethod.DELETE,"/supplier/{companyName}").permitAll()
-
                                 .requestMatchers(HttpMethod.OPTIONS,"/**").permitAll()
 
 

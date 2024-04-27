@@ -7,10 +7,9 @@ import lombok.*;
 @NoArgsConstructor
 @ToString
 public class SupplierDto {
-    private String companyName;
-    private String supplier_name;
+    private Long Supplierid;
+    private String supplier;
     private String contact_person;
     private String phone;
     private String country;
-
 }
