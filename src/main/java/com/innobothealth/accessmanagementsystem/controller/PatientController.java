@@ -6,6 +6,8 @@ import com.innobothealth.accessmanagementsystem.service.PatientService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("patient")
 @Slf4j
@@ -23,5 +25,19 @@ public class PatientController {
         return patientService.createpatient(patientDTO);
     }
 
+    @GetMapping("getAll")
+    public List<Patient> getPatient() {
+        return patientService.getAllPatient();
+    }
+
+    @PutMapping("update/{id}")
+    public Patient update(@PathVariable String id, @RequestBody PatientDTO patientDTO) {
+        return patientService.updatePatient(id, patientDTO);
+    }
+
+    @DeleteMapping("delete/{id}")
+    public void update(@PathVariable String id) {
+        patientService.deletePatient(id);
+    }
 
 }
