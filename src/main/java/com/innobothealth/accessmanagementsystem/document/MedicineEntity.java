@@ -15,7 +15,7 @@ public class MedicineEntity {
     @Id
     private String id;
     @Indexed(unique=true)
-    private Long Stockid;
+    private Long stockid;
     private String medicineType;
     private String medicineName;
     private String supplier;

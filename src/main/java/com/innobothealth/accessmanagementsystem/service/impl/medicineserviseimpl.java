@@ -8,7 +8,6 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -54,7 +53,7 @@ public class medicineserviseimpl implements medicineservise {
 
 
     @Override
-    public MedicineDto getMedicineId(Long id) {
+    public MedicineDto getMedicineId(String id) {
         MedicineEntity DEntity = Mrepository.findById(id).get();
         return mapper.map(DEntity, MedicineDto.class);
     }
@@ -84,18 +83,23 @@ public class medicineserviseimpl implements medicineservise {
     }
 
     @Override
-    public String deleteExpireMedicine(String medicineName) {
-        log.info("Deleting expired medicine: {}", medicineName);
+    public String deleteExpireMedicine(String id) {
+        log.info("Deleting expired medicine: {}", id);
         // Find the medicine entity by its name
-        MedicineEntity medicineEntity = Mrepository.findByMedicineName(medicineName);
-        if (medicineEntity != null) {
+
+        Optional<MedicineEntity> byId = Mrepository.findById(id);
+
+        System.out.println("Stock Id====> " + id);
+        System.out.println("medicineEntity====> " + byId.get());
+
+        if (byId.isPresent()) {
             // If the entity exists, delete it
-            Mrepository.delete(medicineEntity);
-            log.info("Expired medicine deleted: {}", medicineName);
-            return "Expired medicine deleted: " + medicineName;
+            Mrepository.delete(byId.get());
+            log.info("Expired medicine deleted: {}", id);
+            return "Expired medicine deleted: " + id;
         } else {
-            log.info("No medicine found with name: {}", medicineName);
-            return "No medicine found with name: " + medicineName;
+            log.info("No medicine found with name: {}", id);
+            return "No medicine found with name: " + id;
         }
     }
 
