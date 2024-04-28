@@ -40,23 +40,23 @@ public class SupplierController {
 
 
 
-    @GetMapping("/name/{SupplierName}")
-    public ResponseEntity<SupplierDto> getSupplierByName(@PathVariable String companyName) {
-        SupplierDto medicineDto = supplierServise.getSupplierName(companyName);
-        if (medicineDto != null) {
-            return new ResponseEntity<>(medicineDto, HttpStatus.OK);
-        } else {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
-    }
-
-    @PutMapping
-    public Optional<SupplierEntity> updateSuppler(@RequestBody SupplierDto dto){
-        return supplierServise.updateSupplier(dto);
-    }
-    @DeleteMapping("/{companyName}")
-    public String deleteSupplier(@PathVariable String companyName){
-        return supplierServise.deleteSupplier(companyName);
-    }
+//    @GetMapping("/name/{SupplierName}")
+//    public ResponseEntity<SupplierDto> getSupplierByName(@PathVariable String companyName) {
+//        SupplierDto medicineDto = supplierServise.getSupplierName(companyName);
+//        if (medicineDto != null) {
+//            return new ResponseEntity<>(medicineDto, HttpStatus.OK);
+//        } else {
+//            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+//        }
+//    }
+//
+//    @PutMapping
+//    public Optional<SupplierEntity> updateSuppler(@RequestBody SupplierDto dto){
+//        return supplierServise.updateSupplier(dto);
+//    }
+//    @DeleteMapping("/{companyName}")
+//    public String deleteSupplier(@PathVariable String companyName){
+//        return supplierServise.deleteSupplier(companyName);
+//    }
 
 }

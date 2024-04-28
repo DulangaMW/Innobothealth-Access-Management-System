@@ -14,7 +14,7 @@ public class SupplierEntity {
     @Id
     private String id;
     @Indexed(unique=true)
-    private Long Suplierid;
+    private Long suplierid;
     private String supplier_name;
     private String contact_person;
     private String phone;
