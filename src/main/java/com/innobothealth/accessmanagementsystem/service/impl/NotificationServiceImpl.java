@@ -198,6 +198,21 @@ public class NotificationServiceImpl implements NotificationService {
         notificationRepository.delete(byIdAndReceiverId);
     }
 
+    @Override
+    public void updateNotification(String userId, String id, String subject, String message, boolean isAnonymous, String priority, boolean isScheduled, String scheduledDateTime) {
+        Notification byIdAndSenderId = notificationRepository.findByIdAndSenderId(id, userId);
+        if (byIdAndSenderId == null) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Invalid notification");
+        }
+        byIdAndSenderId.setSubject(subject);
+        byIdAndSenderId.setMessage(message);
+        byIdAndSenderId.setPriority(priority);
+        byIdAndSenderId.setMessage(message);
+
+        notificationRepository.save(byIdAndSenderId);
+
+    }
+
 
     private String createMessage(String receiver, String subject, String message, boolean anonymous, String priority, String firstName) {
         StringBuilder stringBuilder = new StringBuilder();

@@ -1,7 +1,6 @@
 package com.innobothealth.accessmanagementsystem.controller;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import com.innobothealth.accessmanagementsystem.document.Notification;
 import com.innobothealth.accessmanagementsystem.document.User;
 import com.innobothealth.accessmanagementsystem.dto.GetNotificationDTO;
 import com.innobothealth.accessmanagementsystem.dto.MyNotificationDTO;
@@ -61,6 +60,12 @@ public class NotificationController {
     @DeleteMapping("delete/{id}")
     public void deleteNotification(@AuthenticationPrincipal User user, @PathVariable String id) {
         notificationService.deleteNotification(user.getId(), id);
+    }
+
+    @PutMapping("update/{id}")
+    public void updateNotification(@AuthenticationPrincipal User user, @PathVariable String id, @RequestBody JsonNode jsonNode) {
+        notificationService.updateNotification(user.getId(), id, jsonNode.get("subject").asText(), jsonNode.get("message").asText(),
+                jsonNode.get("isAnonymous").asBoolean(), jsonNode.get("priority").asText(), jsonNode.get("isScheduled").asBoolean(), jsonNode.get("scheduledDateTime").asText());
     }
 
 }

@@ -16,4 +16,6 @@ public interface NotificationService {
     List<NotificationReply> getReply(String userId, String notificationId);
     List<MyNotificationDTO> getMyNotification(String userId);
     void deleteNotification(String userId, String notificationId);
+
+    void updateNotification(String userId, String id, String subject, String message, boolean isAnonymous, String priority, boolean isScheduled, String scheduledDateTime);
 }
