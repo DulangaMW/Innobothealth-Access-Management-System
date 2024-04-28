@@ -8,7 +8,7 @@ import lombok.*;
 @ToString
 
 public class MedicineDtoSU {
-    private Long Stockid;
+    private String id;
     private String medicineName;
     private String medicineType;
     private String supplier;

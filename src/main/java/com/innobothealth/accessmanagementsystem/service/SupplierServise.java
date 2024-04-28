@@ -13,7 +13,7 @@ import java.util.Optional;
 public interface SupplierServise {
     void addSupplierServise(SupplierDto dto);
     List<SupplierDto> AllSupplierShow();
-    SupplierDto getSupplierName(String companyName);
-    Optional<SupplierEntity> updateSupplier(SupplierDto dto);
-    String deleteSupplier(String companyName);
+//    SupplierDto getSupplierName(String companyName);
+//    Optional<SupplierEntity> updateSupplier(SupplierDto dto);
+//    String deleteSupplier(String companyName);
 }

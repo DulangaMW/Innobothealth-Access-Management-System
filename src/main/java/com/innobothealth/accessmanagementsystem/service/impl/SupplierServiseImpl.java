@@ -7,6 +7,7 @@ import com.innobothealth.accessmanagementsystem.service.SupplierServise;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -15,9 +16,8 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-@Service
+@Component
 @Slf4j
-@RequestMapping("supplier")
 @RequiredArgsConstructor
 @CrossOrigin(origins = "*", allowedHeaders = "*")
 public class SupplierServiseImpl implements SupplierServise {
@@ -45,49 +45,48 @@ public class SupplierServiseImpl implements SupplierServise {
                 .collect(Collectors.toList());
     }
 
-    @Override
-    public SupplierDto getSupplierName(String companyName) {
-        SupplierEntity medicineEntity = Mrepository.findByCompanyName(companyName);
-        return mapper.map(medicineEntity, SupplierDto.class);
-    }
-
-    @Override
-    public Optional<SupplierEntity> updateSupplier(SupplierDto dto) {
-        log.info("Received details to update: {}", dto);
-        // Find the medicine entity by its name
-        Optional<SupplierEntity> optionalEntity = Optional.ofNullable(Mrepository.findByCompanyName(dto.getCompanyName()));
-        if (optionalEntity.isPresent()) {
-            // If the entity exists, update its details
-            SupplierEntity entityToUpdate = optionalEntity.get();
-            entityToUpdate.setCompanyName(dto.getCompanyName());
-            entityToUpdate.setSupplier_name(dto.getSupplier_name());
-            entityToUpdate.setCountry(dto.getCountry());
-            entityToUpdate.setContact_person(dto.getContact_person());
-            entityToUpdate.setPhone(dto.getPhone());
-
-            // Save the updated entity
-            SupplierEntity updatedEntity = Mrepository.save(entityToUpdate);
-            log.info("Updated entity: {}", updatedEntity);
-            return Optional.of(updatedEntity);
-        } else {
-            log.info("No medicine found with name: {}", dto.getCompanyName());
-            return Optional.empty();
-        }
-    }
-
-    @Override
-    public String deleteSupplier(String companyName) {
-        log.info("Deleting expired medicine: {}", companyName);
-        // Find the medicine entity by its name
-        SupplierEntity medicineEntity = Mrepository.findByCompanyName(companyName);
-        if (medicineEntity != null) {
-            // If the entity exists, delete it
-            Mrepository.delete(medicineEntity);
-            log.info("Expired medicine deleted: {}", companyName);
-            return "Expired medicine deleted: " + companyName;
-        } else {
-            log.info("No medicine found with name: {}", companyName);
-            return "No medicine found with name: " + companyName;
-        }
-    }
+//    @Override
+//    public SupplierDto getSupplierName(String companyName) {
+//        SupplierEntity medicineEntity = Mrepository.findBySupplierName(companyName);
+//        return mapper.map(medicineEntity, SupplierDto.class);
+//    }
+//
+//    @Override
+//    public Optional<SupplierEntity> updateSupplier(SupplierDto dto) {
+//        log.info("Received details to update: {}", dto);
+//        // Find the medicine entity by its name
+//        Optional<SupplierEntity> optionalEntity = Optional.ofNullable(Mrepository.findBySupplierName(dto.getSupplier_name()));
+//        if (optionalEntity.isPresent()) {
+//            // If the entity exists, update its details
+//            SupplierEntity entityToUpdate = optionalEntity.get();
+//            entityToUpdate.setSupplier_name(dto.getSupplier_name());
+//            entityToUpdate.setCountry(dto.getCountry());
+//            entityToUpdate.setContact_person(dto.getContact_person());
+//            entityToUpdate.setPhone(dto.getPhone());
+//
+//            // Save the updated entity
+//            SupplierEntity updatedEntity = Mrepository.save(entityToUpdate);
+//            log.info("Updated entity: {}", updatedEntity);
+//            return Optional.of(updatedEntity);
+//        } else {
+//            log.info("No medicine found with name: {}", dto.getSupplier_name());
+//            return Optional.empty();
+//        }
+//    }
+//
+//    @Override
+//    public String deleteSupplier(String companyName) {
+//        log.info("Deleting expired medicine: {}", companyName);
+//        // Find the medicine entity by its name
+//        SupplierEntity medicineEntity = Mrepository.findBySupplierName(companyName);
+//        if (medicineEntity != null) {
+//            // If the entity exists, delete it
+//            Mrepository.delete(medicineEntity);
+//            log.info("Expired medicine deleted: {}", companyName);
+//            return "Expired medicine deleted: " + companyName;
+//        } else {
+//            log.info("No medicine found with name: {}", companyName);
+//            return "No medicine found with name: " + companyName;
+//        }
+  //  }
 }
