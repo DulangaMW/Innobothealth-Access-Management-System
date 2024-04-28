@@ -29,17 +29,17 @@ public class InsuranceController {
         return insuranceService.createInsurence(insuranceDTO);
     }
 
-    @PostMapping("update/{id}")
+    @PutMapping("update/{id}")
     public Insurence updateInsurance(@RequestBody @Validated InsuranceDTO insuranceDTO, @PathVariable String id) {
         return insuranceService.updateInsurance(insuranceDTO, id);
     }
 
-    @PostMapping("delete/{id}")
+    @DeleteMapping("delete/{id}")
     public void deleteInsurance(@PathVariable String id) {
         insuranceService.deleteInsurance(id);
     }
 
-    @PostMapping("getAll")
+    @GetMapping("getAll")
     public List<Insurence> getAllInsurance() {
         return insuranceService.getAllInsurances();
     }

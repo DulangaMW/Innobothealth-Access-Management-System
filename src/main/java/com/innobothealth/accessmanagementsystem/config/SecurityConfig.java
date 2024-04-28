@@ -78,6 +78,10 @@ public class SecurityConfig {
                                 .requestMatchers(HttpMethod.GET,"/patient/getAll").permitAll()
                                 .requestMatchers(HttpMethod.PUT,"/patient/update/{id}").permitAll()
                                 .requestMatchers(HttpMethod.DELETE,"/patient/delete/{id}").permitAll()
+                                .requestMatchers(HttpMethod.POST,"/insurance/create").permitAll()
+                                .requestMatchers(HttpMethod.PUT,"/insurance/update/{id}").permitAll()
+                                .requestMatchers(HttpMethod.DELETE,"/insurance/delete/{id}").permitAll()
+                                .requestMatchers(HttpMethod.GET,"/insurance/getAll}").permitAll()
 
                                 .requestMatchers(HttpMethod.OPTIONS,"/**").permitAll()
 
