@@ -49,15 +49,17 @@ public class DoctorServiceImpl implements DoctorService {
 
         availabilities.stream().forEach(doctorAvailability -> {
             doctorRepository.findById(doctorAvailability.getDoctorId()).ifPresent(doctor -> {
-                doctorAndAvailabilities.add(DoctorAndAvailability.builder()
-                                .id(doctor.getId())
-                        .firstName(doctor.getFirstName())
-                        .lastName(doctor.getLastName())
-                        .specialization(doctor.getSpecialization())
-                        .availabilityFrom(doctorAvailability.getAvailabilityFrom())
-                        .availabilityTo(doctorAvailability.getAvailabilityTo())
-                        .build()
-                );
+                if (doctor.getSpecialization().equalsIgnoreCase(specialization)) {
+                    doctorAndAvailabilities.add(DoctorAndAvailability.builder()
+                            .id(doctor.getId())
+                            .firstName(doctor.getFirstName())
+                            .lastName(doctor.getLastName())
+                            .specialization(doctor.getSpecialization())
+                            .availabilityFrom(doctorAvailability.getAvailabilityFrom())
+                            .availabilityTo(doctorAvailability.getAvailabilityTo())
+                            .build()
+                    );
+                }
             });
 
         });
