@@ -14,6 +14,8 @@ public interface AppointmentService {
 
     void delete (String id);
 
+    boolean existsById(String id);
+
     Appointment update(Appointment appointment);
 
 

@@ -57,6 +57,7 @@ public class SecurityConfig {
                                 .requestMatchers(HttpMethod.GET,"/medicine/generate-pdf/all").permitAll()
                                 .requestMatchers(HttpMethod.GET,"/medicine/generate-pdf/expired").permitAll()
                                 .requestMatchers(HttpMethod.PUT,"/medicine").permitAll()
+                                .requestMatchers(HttpMethod.POST,"/appointment/member/validate").permitAll()
                                 .requestMatchers(HttpMethod.PUT,"/admin/update/{id}").permitAll()
                                 .requestMatchers(HttpMethod.DELETE,"/medicine/{medicineName}").permitAll()
                                 .requestMatchers(HttpMethod.POST,"/claim/create").permitAll()

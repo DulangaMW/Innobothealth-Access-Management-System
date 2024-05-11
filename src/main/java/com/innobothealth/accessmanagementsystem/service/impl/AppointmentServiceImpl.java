@@ -2,6 +2,7 @@ package com.innobothealth.accessmanagementsystem.service.impl;
 
 import com.innobothealth.accessmanagementsystem.document.Appointment;
 import com.innobothealth.accessmanagementsystem.repository.AppointmentRepository;
+import com.innobothealth.accessmanagementsystem.repository.PatientRepository;
 import com.innobothealth.accessmanagementsystem.service.AppointmentService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +20,10 @@ public class AppointmentServiceImpl implements AppointmentService {
 
     @Autowired
     private AppointmentRepository appointmentRepository;
+
+    @Autowired
+    private PatientRepository patientRepository;
+
     @Override
     public Appointment create(Appointment appointment) {
         return appointmentRepository.save(appointment);
@@ -38,7 +43,13 @@ public class AppointmentServiceImpl implements AppointmentService {
     public void delete(String id) {
          appointmentRepository.deleteById(id);
     }
-//id added in the pom.xml?
+
+    @Override
+    public boolean existsById(String id) {
+        return patientRepository.existsById(id);
+    }
+
+    //id added in the pom.xml?
     @Override
     public Appointment update(Appointment appointment) {
         Optional<Appointment> byId = appointmentRepository.findById(appointment.getAppointmentId());
