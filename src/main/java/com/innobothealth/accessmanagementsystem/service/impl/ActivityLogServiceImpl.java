@@ -5,6 +5,9 @@ import com.innobothealth.accessmanagementsystem.repository.ActivityLogRepository
 import com.innobothealth.accessmanagementsystem.service.ActivityLogService;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
+import java.util.List;
+
 @Service
 public class ActivityLogServiceImpl implements ActivityLogService {
 
@@ -20,7 +23,8 @@ public class ActivityLogServiceImpl implements ActivityLogService {
     }
 
    @Override
-    public List<ActivityLog> getActivityLogsForUser(String userId, LocalDateTime startDate, LocalDateTime endDate) {
-    return activityLogRepository.findByUserIdAndTimestampBetween(userId, startDate, endDate);
-    }   
+    public List<ActivityLog> getActivityLogsForUser(String userId) {
+        return activityLogRepository.findByUserId(userId);
+    }
+
 }

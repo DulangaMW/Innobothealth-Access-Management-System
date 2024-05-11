@@ -6,6 +6,7 @@ import com.innobothealth.accessmanagementsystem.dto.UserDTO;
 import com.innobothealth.accessmanagementsystem.service.UserService;
 import jakarta.validation.constraints.NotNull;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -37,7 +38,7 @@ public class UserController {
     @DeleteMapping("delete/{userId}")
     public ResponseEntity<String> deleteUser(@PathVariable String userId) {
         try {
-            userService.deleteUser(userId);
+            userService.deleteUSer(userId);
             return ResponseEntity.ok("User deleted successfully");
         } catch (Exception e) {
             log.error("Error deleting user with ID: {}", userId, e);

@@ -2,12 +2,14 @@ package com.innobothealth.accessmanagementsystem.controller;
 
 import com.innobothealth.accessmanagementsystem.document.ActivityLog;
 import com.innobothealth.accessmanagementsystem.service.ActivityLogService;
+import com.innobothealth.accessmanagementsystem.util.Event;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.time.LocalDateTime;
+import java.util.List;
 
 @RestController
 @RequestMapping("activity-log")
@@ -20,19 +22,16 @@ public class ActivityLogController {
     }
 
     @PostMapping("/log")
-    public ResponseEntity<?> logActivity(@RequestBody ActivityLog activityLog) {
-        activityLogService.logActivity(activityLog);
+    public ResponseEntity<?> logActivity(@RequestParam Event event, @RequestParam String userId) {
+        activityLogService.logActivity(ActivityLog.builder().userId(userId).event(event).timestamp(LocalDateTime.now()).build());
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
-    // Implement endpoints for retrieving activity logs if needed
-
     @GetMapping("/{userId}")
     public ResponseEntity<List<ActivityLog>> getActivityLogsForUser(
-        @PathVariable String userId,
-        @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime startDate,
-        @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime endDate) {
-    List<ActivityLog> activityLogs = activityLogService.getActivityLogsForUser(userId, startDate, endDate);
-    return ResponseEntity.ok(activityLogs);
-}
+        @PathVariable String userId) {
+        List<ActivityLog> activityLogs = activityLogService.getActivityLogsForUser(userId);
+        return ResponseEntity.ok(activityLogs);
+    }
+
 }

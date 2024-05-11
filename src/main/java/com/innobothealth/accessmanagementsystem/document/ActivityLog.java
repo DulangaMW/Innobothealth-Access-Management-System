@@ -1,5 +1,6 @@
 package com.innobothealth.accessmanagementsystem.document;
 
+import com.innobothealth.accessmanagementsystem.util.Event;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -18,9 +19,6 @@ public class ActivityLog {
     @Id
     private String id;
     private String userId;
-    private String description;
     private LocalDateTime timestamp;
-    private LocalDateTime loginTime;
-    private LocalDateTime logoutTime;
-    // Add other fields as needed
+    private Event event;
 }
