@@ -47,7 +47,7 @@ public class CodeController {
     }
 
     @DeleteMapping("delete")
-    public void deleteClaim(@RequestParam("id") @NotNull String id) {
+    public void deleteCode(@RequestParam("id") @NotNull String id) {
         codeService.deleteCode(id);
     }
 
