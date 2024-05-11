@@ -84,6 +84,9 @@ public class SecurityConfig {
                                 .requestMatchers(HttpMethod.DELETE,"/insurance/delete/{id}").permitAll()
                                 .requestMatchers(HttpMethod.GET,"/insurance/getAll").permitAll()
                                 .requestMatchers(HttpMethod.GET,"/code/getAll").permitAll()
+                                .requestMatchers(HttpMethod.POST,"/code/create").permitAll()
+                                .requestMatchers(HttpMethod.DELETE,"/code/delete").permitAll()
+                                .requestMatchers(HttpMethod.PUT,"/code/update/{id}").permitAll()
 
                                 .requestMatchers(HttpMethod.OPTIONS,"/**").permitAll()
 
