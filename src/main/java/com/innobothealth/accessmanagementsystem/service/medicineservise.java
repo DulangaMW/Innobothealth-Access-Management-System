@@ -4,6 +4,7 @@ import com.innobothealth.accessmanagementsystem.document.MedicineEntity;
 import com.innobothealth.accessmanagementsystem.dto.MedicineDto;
 import com.innobothealth.accessmanagementsystem.dto.MedicineDtoSU;
 
+import java.io.File;
 import java.util.List;
 import java.util.Optional;
 
@@ -20,8 +21,8 @@ public interface medicineservise {
 
     List<MedicineDtoSU> ExpireMedicineShow();
 
-    byte[] AllMedicinepdf();
-    byte[] ExpireMedicinepdf();
+    File allMedicinePdf(String fileName);
+    File ExpireMedicinepdf(String fileName);
 
 }
 

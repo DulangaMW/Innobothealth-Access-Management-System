@@ -9,6 +9,9 @@ import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Component;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
@@ -117,7 +120,8 @@ public class medicineserviseimpl implements medicineservise {
                 .collect(Collectors.toList());
         return validMedicines;
     }
-//    @Override
+
+    //    @Override
 //    public boolean AllMedicinepdf() {
 //        List<MedicineEntity> medicineEntities = Mrepository.findAll();
 //        // Generate PDF
@@ -147,21 +151,45 @@ public class medicineserviseimpl implements medicineservise {
 //            return false;
 //        }
 //    }
-
-    @Override
-    public byte[] AllMedicinepdf() {
+//@Override
+//public File[] allMedicinePdf() {
+//    List<MedicineEntity> medicineEntities = Mrepository.findAll();
+//    // Generate PDF
+//    try {
+//        byte[] pdfBytes = pdfGenerationService.generatePDF("All Medicines", medicineEntities);
+//        if (pdfBytes != null) {
+//            return convertByteArrayToFile(pdfBytes).listFiles();
+//        }
+//    } catch (Exception e) {
+//        log.error("Error generating PDF for all medicines: {}", e.getMessage());
+//    }
+//    return null;
+//}
+//
+//    private File convertByteArrayToFile(byte[] bytes) throws IOException {
+//        File file = new File("AllMedicines.pdf");
+//        try (FileOutputStream fos = new FileOutputStream(file)) {
+//            fos.write(bytes);
+//        }
+//        return file;
+//    }
+//
+    public File allMedicinePdf(String fileName) {
         List<MedicineEntity> medicineEntities = Mrepository.findAll();
         // Generate PDF
         try {
-            return pdfGenerationService.generatePDF("All Medicines", medicineEntities);
+            byte[] pdfBytes = pdfGenerationService.generatePDF("All Medicines", medicineEntities);
+            if (pdfBytes != null) {
+                return convertByteArrayToFile(pdfBytes, fileName);
+            }
         } catch (Exception e) {
-            log.error("Error generating PDF for all medicines: {}", e.getMessage());
-            return null;
+            // Handle exception
+            e.printStackTrace();
         }
+        return null;
     }
 
-    @Override
-    public byte[] ExpireMedicinepdf() {
+    public File ExpireMedicinepdf(String fileName) {
         List<MedicineDtoSU> dtoList = ExpireMedicineShow();
         List<MedicineEntity> medicineEntities = dtoList.stream()
                 .map(dto -> mapper.map(dto, MedicineEntity.class))
@@ -169,11 +197,24 @@ public class medicineserviseimpl implements medicineservise {
 
         // Generate PDF
         try {
-            return pdfGenerationService.generatePDF("Expired Medicines", medicineEntities);
+            byte[] pdfBytes = pdfGenerationService.generatePDF("Expired Medicines", medicineEntities);
+            if (pdfBytes != null) {
+                return convertByteArrayToFile(pdfBytes, fileName);
+            }
         } catch (Exception e) {
             log.error("Error generating PDF for expired medicines: {}", e.getMessage());
             return null;
         }
+        return null;
+    }
+
+
+    private File convertByteArrayToFile(byte[] bytes, String fileName) throws IOException {
+        File file = new File(fileName + ".pdf");
+        try (FileOutputStream fos = new FileOutputStream(file)) {
+            fos.write(bytes);
+        }
+        return file;
     }
 
 
