@@ -7,12 +7,14 @@ import com.innobothealth.accessmanagementsystem.dto.MedicineDtoSU;
 import com.innobothealth.accessmanagementsystem.service.medicineservise;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.core.io.FileSystemResource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.File;
 import java.util.List;
 import java.util.Optional;
 
@@ -78,33 +80,56 @@ public class medicinecontroller {
 //
 //        return MedicineServise.AllMedicinepdf();
 //    }
+//
+//    @GetMapping("/generate-pdf/all")
+//    public ResponseEntity<File> generateAllMedicinePdf() {
+//        try {
+//            File pdfContent = MedicineServise.allMedicinePdf(); // Call service method to generate PDF
+//            HttpHeaders headers = new HttpHeaders();
+//            headers.setContentType(MediaType.APPLICATION_PDF);
+//            headers.setContentDispositionFormData("filename", "all_medicine.pdf");
+//            headers.setCacheControl("must-revalidate, post-check=0, pre-check=0");
+//            ResponseEntity<File> response = (ResponseEntity<File>) new ResponseEntity<>(pdfContent, headers, HttpStatus.OK);
+//            return response;
+//        } catch (Exception e) {
+//            log.error("Failed to generate all medicine PDF: {}", e.getMessage());
+//            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
+//        }
+//    }
+@GetMapping("/generate-pdf/all")
+public ResponseEntity<FileSystemResource> generateAllMedicinePdf() {
+    try {
+        File pdfContent = MedicineServise.allMedicinePdf("all medicine "); // Call service method to generate PDF
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_PDF);
+        headers.setContentDispositionFormData("filename", "all_medicine.pdf");
+        headers.setCacheControl("must-revalidate, post-check=0, pre-check=0");
 
-    @GetMapping("/generate-pdf/all")
-    public ResponseEntity<byte[]> generateAllMedicinePdf() {
-        try {
-            byte[] pdfContent = MedicineServise.AllMedicinepdf(); // Call service method to generate PDF
-            HttpHeaders headers = new HttpHeaders();
-            headers.setContentType(MediaType.APPLICATION_PDF);
-            headers.setContentDispositionFormData("filename", "all_medicine.pdf");
-            headers.setCacheControl("must-revalidate, post-check=0, pre-check=0");
-            ResponseEntity<byte[]> response = new ResponseEntity<>(pdfContent, headers, HttpStatus.OK);
-            return response;
-        } catch (Exception e) {
-            log.error("Failed to generate all medicine PDF: {}", e.getMessage());
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
-        }
+        FileSystemResource fileResource = new FileSystemResource(pdfContent);
+
+        return ResponseEntity.ok()
+                .headers(headers)
+                .body(fileResource);
+    } catch (Exception e) {
+        log.error("Failed to generate all medicine PDF: {}", e.getMessage());
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
     }
+}
 
     @GetMapping("/generate-pdf/expired")
-    public ResponseEntity<byte[]> generateExpiredMedicinePdf() {
+    public ResponseEntity<FileSystemResource> generateExpiredMedicinePdf() {
         try {
-            byte[] pdfContent = MedicineServise.ExpireMedicinepdf(); // Call service method to generate PDF
+            File pdfContent = MedicineServise.ExpireMedicinepdf("Expire medicine"); // Call service method to generate PDF
             HttpHeaders headers = new HttpHeaders();
             headers.setContentType(MediaType.APPLICATION_PDF);
-            headers.setContentDispositionFormData("filename", "expired_medicine.pdf");
+            headers.setContentDispositionFormData("filename", "expire_medicine.pdf");
             headers.setCacheControl("must-revalidate, post-check=0, pre-check=0");
-            ResponseEntity<byte[]> response = new ResponseEntity<>(pdfContent, headers, HttpStatus.OK);
-            return response;
+
+            FileSystemResource fileResource = new FileSystemResource(pdfContent);
+
+            return ResponseEntity.ok()
+                    .headers(headers)
+                    .body(fileResource);
         } catch (Exception e) {
             log.error("Failed to generate expired medicine PDF: {}", e.getMessage());
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);

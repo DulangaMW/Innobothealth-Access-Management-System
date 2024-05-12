@@ -1,4 +1,5 @@
 package com.innobothealth.accessmanagementsystem.service.impl;
+
 import com.innobothealth.accessmanagementsystem.document.MedicineEntity;
 import com.itextpdf.io.image.ImageDataFactory;
 import com.itextpdf.kernel.font.PdfFont;
@@ -11,10 +12,16 @@ import com.itextpdf.layout.element.Image;
 import com.itextpdf.layout.element.Paragraph;
 import com.itextpdf.layout.element.Table;
 import lombok.extern.slf4j.Slf4j;
+import org.jfree.chart.ChartFactory;
+import org.jfree.chart.ChartUtils;
+import org.jfree.chart.JFreeChart;
+import org.jfree.data.category.DefaultCategoryDataset;
 import org.springframework.stereotype.Component;
 
 import java.io.ByteArrayOutputStream;
+import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
@@ -40,6 +47,9 @@ public class PDFGenerator {
 
         // Add data table
         addDataTable(document, medicineList);
+
+        // Add JFreeChart image
+        addChart(document, medicineList);
 
         // Add footer
         addFooter(document);
@@ -82,12 +92,45 @@ public class PDFGenerator {
         document.add(table);
     }
 
+    private static void addChart(Document document, List<MedicineEntity> medicineList) throws IOException {
+        // Create a dataset for the chart
+        DefaultCategoryDataset dataset = new DefaultCategoryDataset();
+
+        // Populate dataset with supplier and quantity data
+        for (MedicineEntity medicine : medicineList) {
+            dataset.addValue(medicine.getQuantity(), "Quantity", medicine.getSupplier());
+        }
+
+        // Create the chart
+        JFreeChart chart = ChartFactory.createBarChart(
+                "Supplier vs Quantity", // chart title
+                "Supplier",             // x-axis label
+                "Quantity",             // y-axis label
+                dataset                // data
+        );
+
+        // Save the chart as PNG image to a temporary file
+        File chartFile = File.createTempFile("chart", ".png");
+        ChartUtils.saveChartAsPNG(chartFile, chart, 400, 300);
+
+        // Read the temporary file into a ByteArrayOutputStream
+        ByteArrayOutputStream chartOutputStream = new ByteArrayOutputStream();
+        Files.copy(chartFile.toPath(), chartOutputStream);
+
+        // Add the chart image to the PDF
+        Image chartImage = new Image(ImageDataFactory.create(chartOutputStream.toByteArray()));
+        document.add(chartImage);
+
+        // Delete the temporary file
+        chartFile.delete();
+    }
+
+
     private static void addFooter(Document document) throws IOException {
         PdfFont font = PdfFontFactory.createFont();
-        Paragraph paragraph = new Paragraph("Computer Generated Innboat RCM");
+        Paragraph paragraph = new Paragraph("Computer Generated Innboat RCM\nVerified by: Arunalu Bamunusinghe");
         paragraph.setFont(font);
         paragraph.setTextAlignment(CENTER);
         document.add(paragraph);
     }
 }
-

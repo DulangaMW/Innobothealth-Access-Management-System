@@ -106,6 +106,20 @@
 			<version>8.0.3</version>
 		</dependency>
 
+
+		<dependency>
+			<groupId>org.jfree</groupId>
+			<artifactId>jfreechart</artifactId>
+			<version>1.5.3</version> <!-- Or the latest version -->
+		</dependency>
+		<dependency>
+			<groupId>org.jfree</groupId>
+			<artifactId>jcommon</artifactId>
+			<version>1.0.23</version> <!-- Or the latest version -->
+		</dependency>
+
+
+
 	</dependencies>
 
 	<build>
