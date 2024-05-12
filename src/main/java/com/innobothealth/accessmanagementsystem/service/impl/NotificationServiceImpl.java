@@ -50,6 +50,17 @@ public class NotificationServiceImpl implements NotificationService {
     public void sendNotification(NotificationDTO notification) {
         User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 
+        Date startTime = null;
+
+        if (notification.getScheduledDateTime() != null) {
+            Instant instant = LocalDateTime.parse(notification.getScheduledDateTime()).atZone(ZoneId.of("Asia/Colombo")).toInstant();
+            startTime = Date.from(instant);
+        }
+
+        if (startTime != null && !startTime.after(new Date())) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Invalid scheduled date!");
+        }
+
         Notification.NotificationBuilder builder = Notification.builder();
         builder.category(notification.getCategory());
         builder.senderId(user.getId());
@@ -106,8 +117,7 @@ public class NotificationServiceImpl implements NotificationService {
             NotificationRunnableTask notificationRunnableTask = new NotificationRunnableTask(message, notificationPref.contains(NotificationPref.EMAIL) ? notification.getSubject() : null,
                     notificationPref.contains(NotificationPref.EMAIL) ? userMap.get("email") : null, notificationPref.contains(NotificationPref.EMAIL) ? userMap.get("number") : null,
                     smsSender, emailSender);
-            Instant instant = LocalDateTime.parse(notification.getScheduledDateTime()).atZone(ZoneId.of("Asia/Colombo")).toInstant();
-            Date startTime = Date.from(instant);
+
             threadPoolTaskScheduler.schedule(notificationRunnableTask, startTime);
             builder.deliveredTime(LocalDateTime.parse(notification.getScheduledDateTime()));
             builder.isAcknowledged(false);
