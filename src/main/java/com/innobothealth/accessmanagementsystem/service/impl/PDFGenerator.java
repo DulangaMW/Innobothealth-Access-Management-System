@@ -16,7 +16,6 @@ import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartUtils;
 import org.jfree.chart.JFreeChart;
 import org.jfree.data.category.DefaultCategoryDataset;
-import org.jfree.data.general.DefaultPieDataset;
 import org.springframework.stereotype.Component;
 
 import java.io.ByteArrayOutputStream;

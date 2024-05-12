@@ -122,7 +122,7 @@ public ResponseEntity<FileSystemResource> generateAllMedicinePdf() {
             File pdfContent = MedicineServise.ExpireMedicinepdf("Expire medicine"); // Call service method to generate PDF
             HttpHeaders headers = new HttpHeaders();
             headers.setContentType(MediaType.APPLICATION_PDF);
-            headers.setContentDispositionFormData("filename", "all_medicine.pdf");
+            headers.setContentDispositionFormData("filename", "expire_medicine.pdf");
             headers.setCacheControl("must-revalidate, post-check=0, pre-check=0");
 
             FileSystemResource fileResource = new FileSystemResource(pdfContent);
