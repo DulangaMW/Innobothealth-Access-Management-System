@@ -52,7 +52,7 @@ public class NotificationServiceImpl implements NotificationService {
 
         Date startTime = null;
 
-        if (notification.getScheduledDateTime() != null) {
+        if (Boolean.parseBoolean(notification.getIsScheduled())) {
             Instant instant = LocalDateTime.parse(notification.getScheduledDateTime()).atZone(ZoneId.of("Asia/Colombo")).toInstant();
             startTime = Date.from(instant);
         }
