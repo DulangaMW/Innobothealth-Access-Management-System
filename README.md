@@ -3,7 +3,7 @@ Please go under edit and edit this file as needed for your project
 # Project Name - Innobot Health Care Revenue Cycle 
 
 # Batch - ITP_2023_Y2_S2_WE10
-### Group Leader - IT21377280 - S.A.N. Bamunusinghe. (ArunaluB)
+### Group Leader - IT22515612  - S.A.N. Bamunusinghe. (ArunaluB)
 ### Member 2 - IT22917270 - DME Wimalagunasekara . (DulangaMW)
 ### Member 3 - IT22892058 - S A T Nayanapriya (ThimuthNayanapriya)
 ### Member 4 - IT22332080 - Obeyesekere A D.(AvindiObeyesekere)
